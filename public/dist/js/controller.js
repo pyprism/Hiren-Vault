@@ -1,5 +1,5 @@
 //Horrible code~  :O  ~
-var hiren = angular.module('hiren',['ngRoute']);
+var hiren = angular.module('Hiren',['ngRoute']);
 
 hiren.config(
 	function($routeProvider){
@@ -8,28 +8,13 @@ hiren.config(
 			templateUrl:'partials/home.html'
 			//controller: 'hirenx'
 		})
-		.when("/explore" ,{
-			templateUrl:'partials/alphaselect.html',
+		.when("/new" ,{
+			templateUrl:'partials/Save-New-Data.html',
 			controller: 'hirenw'
 		})
-		.when('/artist/:alpha/' ,{
-			templateUrl: 'partials/artistsName.html' ,
+		.when('/search' ,{
+			templateUrl: 'partials/search.html' ,
 			controller : 'hirenx'
-		})
-		.when('/artist/:alpha/:name/' ,{
-			templateUrl: 'partials/albumName.html' ,
-			controller : 'hireny'
-		})
-		.when('/artist/:alpha/:name/:albumname/' , {
-			templateUrl : 'partials/download.html',
-			controller : 'hirenz'
-		})
-		.when('/about' , {
-			templateUrl : 'partials/about.html'
-		})
-		.when('/playlist' , {
-			templateUrl : 'partials/playlist.html',
-			controller : 'hiren'
 		//})
 		//.otherwise({
 		//	redirectTo: '/'
@@ -39,75 +24,25 @@ hiren.config(
 
 
 
-var rootURL = "http://localhost/music/public/index.php/";
+var rootURL = "http://localhost/";
 
 hiren.controller('hirenw' , function($scope ,$http , $location){
-	// Check if "key" exists in the storage
-	var data = $.jStorage.get($location.path());
-	if(!data){
-	// if not - load the data from the server
- 	// and save it
  	$http.get( rootURL + 'alpha').success(function(data){
- 		$.jStorage.set($location.path(),data);
 		$scope.message = data ;
 	});
-	}
-	else{
-		$scope.message = $.jStorage.get($location.path()) ;
-	}
 	$scope.click = function(value){
 			$location.path("/artist/" + value + "/");
 	}
 });
 
 hiren.controller('hirenx' , function($scope , $http , $location , $routeParams){
-	var data = $.jStorage.get($location.path());
-	if(!data){
+
 	$http.post( (rootURL + 'artistname') , {'alpha' : $routeParams.alpha }).success(function(data){
 		$.jStorage.set($location.path(),data);
 		$scope.message = data;
 		});
-	}
-	else{
-		$scope.message = $.jStorage.get($location.path()) ;
-	}
 	$scope.click = function(value){
 		$location.path("/artist/" + $routeParams.alpha + "/" + encodeURI(value) + "/");
 	}
 });
 
-hiren.controller('hireny',function($scope , $http , $location , $routeParams){
-	var data = $.jStorage.get($location.path());
-	if(!data){
-	$http.post((rootURL + 'albumname/') , {'alpha' : $routeParams.alpha , 'name' : $routeParams.name}).success(function(data){
-		$.jStorage.set($location.path(),data);
-		$scope.message = data;
-	 });
-    }
-    else{
-    	$scope.message = $.jStorage.get($location.path()) ;
-    }
-	$scope.click = function(value){
-		$location.path ("/artist/" + $routeParams.alpha + "/" + $routeParams.name + '/' + value  + "/");
-	}
-});
-
-
-
-hiren.controller('hirenz' , function($scope , $http , $location , $routeParams){
-	var data = $.jStorage.get($location.path());
-	if(!data){
-	$http.post((rootURL + "music") , {'alpha' : $routeParams.alpha , 'name' : $routeParams.name ,
-		'album' : $routeParams.albumname }).success(function(data){
-			$.jStorage.set($location.path(),data);
-			$scope.groups= data;
-	});
-	}
-	else {
-		$scope.groups = $.jStorage.get($location.path()) ;
-	}
-	$scope.click = function(url , name ){
-		//console.log(value);
-		$scope.songName = name ;
-	}
-});
