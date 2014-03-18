@@ -38,7 +38,6 @@ hiren.controller('hirenw' , function($scope ,$http , $location){
 hiren.controller('hirenx' , function($scope , $http , $location , $routeParams){
 
 	$http.post( (rootURL + 'artistname') , {'alpha' : $routeParams.alpha }).success(function(data){
-		$.jStorage.set($location.path(),data);
 		$scope.message = data;
 		});
 	$scope.click = function(value){
