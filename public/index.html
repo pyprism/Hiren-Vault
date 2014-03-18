@@ -1,9 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="Hiren">
 <head>
-    <title></title>
+    <meta charset="utf-8">
+    <title>Hiren</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <a class="navbar-brand" href="#/">Hiren</a>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#/new">Save New Data</a></li>
+                <li><a href="#/search">Search For Someone!</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="ng-view"></div>
+    </div>
+    <script src="dist/js/angular.js" ></script>
+    <script src="dist/js/angular-route.js" ></script>
+    <script src="dist/js/controler.js" ></script>
 </body>
 </html>
