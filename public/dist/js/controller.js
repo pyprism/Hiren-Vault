@@ -10,7 +10,7 @@ hiren.config(
 		})
 		.when("/new" ,{
 			templateUrl:'partials/Save-New-Data.html',
-			controller: 'hirenw'
+			controller: 'hirenX'
 		})
 		.when('/search' ,{
 			templateUrl: 'partials/search.html' ,
@@ -26,16 +26,11 @@ hiren.config(
 
 var rootURL = "http://localhost/";
 
-hiren.controller('hirenw' , function($scope ,$http , $location){
- 	$http.get( rootURL + 'alpha').success(function(data){
-		$scope.message = data ;
-	});
-	$scope.click = function(value){
-			$location.path("/artist/" + value + "/");
-	}
+Hiren.controller('hirenX' , function($scope ,$http , $location){
+    $http.post('new')
 });
 
-hiren.controller('hirenx' , function($scope , $http , $location , $routeParams){
+Hiren.controller('hirenxxz' , function($scope , $http , $location , $routeParams){
 
 	$http.post( (rootURL + 'artistname') , {'alpha' : $routeParams.alpha }).success(function(data){
 		$scope.message = data;
