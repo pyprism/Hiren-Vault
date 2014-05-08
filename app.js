@@ -4,7 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var cons = require('consolidate');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -12,7 +12,8 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.engine('hbs', cons.handlebars);
+app.set('view engine', 'hbs');
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + 'public/favicon.ico')); //favicon its not working
 
 app.use('/', routes);
 app.use('/users', users);
@@ -39,6 +41,7 @@ if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
+            title : 'error' ,
             message: err.message,
             error: err
         });
