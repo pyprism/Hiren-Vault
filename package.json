@@ -14,6 +14,7 @@
     "handlebars": "^2.0.0-alpha.2",
     "mongoose": "^3.8.8",
     "morgan": "~1.0.0",
+    "redis": "^0.10.1",
     "static-favicon": "~1.0.0"
   }
 }
