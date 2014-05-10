@@ -22,22 +22,26 @@
         </div>
     </nav>
     <div class="container">
-        <form role="form" method="post">
+        <form action="/new" role="form" method="POST" enctype="application/x-www-form-urlencoded">
+            <div class="form-group">
+                <label>Tag</label>
+                <input type="text" class="form-control"  name='tag' placeholder="Tag">
+            </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <input type="email" class="form-control" name="email" placeholder="Enter email">
             </div>
             <div class="form-group">
                 <label >User Name</label>
-                <input type="text" class="form-control"  placeholder="Enter username">
+                <input type="text" class="form-control"  name='username' placeholder="Enter username">
             </div>
             <div class="form-group">
                 <label>Site Address</label>
-                <input type="url" class="form-control" placeholder="Site URL">
+                <input type="url" class="form-control" name="url" placeholder="Site URL">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <input type='text' class="form-control" id="exampleInputPassword1" name='password' placeholder="Password">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
