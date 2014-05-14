@@ -4,8 +4,11 @@
 
 var mongoose = require( 'mongoose' );
 var auths = require('../model/hiren-conf');
+//var EventEmitter = require("events").EventEmitter;
 
-exports.create = function(req){
+//var ee = new EventEmitter();
+
+exports.create = function(req, ee){
     var instance = new auths.auth();
     if(req.body.tag && req.body.email){
         auths.auth.findOne({ 'tag' : req.body.tag , 'email' : req.body.email}, function(err , duplicate){
@@ -21,9 +24,14 @@ exports.create = function(req){
                         if(!err) console.log('Saved');
 
                     });
-                    return "Save";
+                    //return "Save";
+                    ee.emit('status', 'Your data is saved.Add some more?');
 
-            }       else return "Duplicate";
+            }       else {
+                    console.log("Duplicate");
+                    //return "Duplicate"
+                    ee.emit('status', 'You entered duplicate data.Add some more?');
+                };
         } else console.log(err);
         });
 
