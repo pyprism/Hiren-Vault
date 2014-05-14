@@ -3,12 +3,12 @@
  */
 
 var mongoose = require( 'mongoose' );
-var auth = require('../model/hiren-conf');
+var auths = require('../model/hiren-conf');
 
 exports.create = function(req){
-    var instance = new auth();
+    var instance = new auths.auth();
     if(req.body.tag && req.body.email){
-        auth.findOne({ 'tag' : req.body.tag , 'email' : req.body.email}, function(err , duplicate){
+        auths.auth.findOne({ 'tag' : req.body.tag , 'email' : req.body.email}, function(err , duplicate){
             if (!err){
                 if(!duplicate){
                     instance.tag = req.body.tag;
