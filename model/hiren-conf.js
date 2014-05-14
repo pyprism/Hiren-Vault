@@ -35,4 +35,11 @@ var authSchema = new mongoose.Schema({
     icon: String
 });
 
+var masterPass = new mongoose.Schema({
+    hash : String,
+    tag : String,
+    state: { type: String, default: false}
+});
+
 exports.auth = mongoose.model('Auth', authSchema);
+exports.master = mongoose.model('Master', masterPass);
