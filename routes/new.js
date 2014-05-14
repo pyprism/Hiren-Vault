@@ -25,24 +25,7 @@ router.post('/', function(req, res){
             status : statusData
         })
     });
-    /*res.render('newdata', {
-        title : 'Add More Data',
-        status : statusData
-    })*/
-    /*if (result == 'Save'){
-        res.redirect('newdata',{
-            title: 'Add More Data' ,
-            status: 'Your new data is saved.You can add some more.'
-        })
-    }
-    else if(result == 'Duplicate'){
-        res.redirect('newdata',{
-            title: 'Add More Data' ,
-            status: 'Your inserted a duplicate data.'
-        })
-    }*/
-    //console.log(result);
-    //res.end();
+
 });
 
 module.exports = router;
