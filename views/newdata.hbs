@@ -47,13 +47,8 @@
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
         {{#if status}}
-            <div class="alert alert-success">
-                <h1>{{ status }}</h1>
-            </div>
-        {{/if}}
-        {{#if status}}
-            <div class="alert alert-warning">
-                <h1>{{status}}</h1>
+            <div class="alert alert-info text-center">
+                {{status}}
             </div>
         {{/if}}
     </div>
