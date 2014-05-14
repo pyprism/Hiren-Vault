@@ -4,9 +4,7 @@
 
 var mongoose = require( 'mongoose' );
 var auths = require('../model/hiren-conf');
-//var EventEmitter = require("events").EventEmitter;
 
-//var ee = new EventEmitter();
 
 exports.create = function(req, ee){
     var instance = new auths.auth();
@@ -24,12 +22,10 @@ exports.create = function(req, ee){
                         if(!err) console.log('Saved');
 
                     });
-                    //return "Save";
                     ee.emit('status', 'Your data is saved.Add some more?');
 
             }       else {
                     console.log("Duplicate");
-                    //return "Duplicate"
                     ee.emit('status', 'You entered duplicate data.Add some more?');
                 };
         } else console.log(err);
