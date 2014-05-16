@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "bcrypt": "^0.7.8",
-    "body-parser": "~1.0.0",
+    "body-parser": "^1.0.2",
     "consolidate": "^0.10.0",
-    "cookie-parser": "~1.0.1",
-    "debug": "~0.7.4",
-    "express": "~4.0.0",
+    "cookie-parser": "^1.0.1",
+    "debug": "^0.7.4",
+    "express": "^4.0.0",
     "favicon": "0.0.2",
     "favicon2png": "0.0.5",
     "handlebars": "^2.0.0-alpha.2",
@@ -20,6 +20,7 @@
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "redis": "^0.10.1",
-    "static-favicon": "~1.0.0"
+    "static-favicon": "^1.0.2",
+    "underscore": "^1.6.0"
   }
 }
