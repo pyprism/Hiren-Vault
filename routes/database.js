@@ -37,12 +37,42 @@ exports.create = function(req, ee){
 
 exports.group = function(ee){
     var a = [];
-    database.auth.find({},{'tag' : 1 , '_id' : 0 },function(err , data){
-        for (var x = 0; x < data.length ; x++){
-            //a.push[data[x]];
+    database.auth.distinct('tag',function(err , tagname){
+        for (var x = 0; x < tagname.length ; x++){
+            database.auth.find({ 'tag' : ''})
             a.push(data[x].tag)
         }
         ee.emit('group',us.uniq(a,false));
 
     })
 }
+
+exports.details = function(ee){
+
+}
+
+function x(){
+    var a = [],
+        b = [];
+    database.auth.distinct('tag',function(err , tagname){
+        //for (var x = 0; x < tagname.length ; x++){
+            a.push(tagname)
+            //a.push(data[x].tag)
+        //}
+       // console.log(a);
+       // ee.emit('group',us.uniq(a,false));
+
+    })
+    for(var x = 0; x< a.length ; x++){
+        database.auth.count({ 'tag' : a[x] },function(err, nisha){
+            // a[tagname[x]] = nisha.length ;
+            //console.log(tagname[x] );
+            b[a[x]] = nisha;
+
+        });
+        console.log(b);
+    }
+
+}
+
+x()
