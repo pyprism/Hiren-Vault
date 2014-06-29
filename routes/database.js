@@ -89,6 +89,7 @@ exports.details = function(ee){
     });
 }*/
 
+/*
 function y(){
     var a = [] ,
         b = [];
@@ -107,5 +108,31 @@ function y(){
         //console.log(b)
     });
 }
+*/
 
+function y(){
+    var tags = [],
+        tagsCount = [];
+    database.auth.find({} , {'tag' : 1 , "_id" : 0} , function(err , data){
+        for(var x = 0; x < data.length ; x++){
+            tags.push(data[x].tag);
+        }
+        console.log(tags);
+        for(var y = 0; y < tags.length ; y++ ){
+            var temp = tags[y];
+          for(var z =0; z < tags.length ; z++){
+              if(temp == tags[z]){
+                  if(tags.indexOf(temp) == -1){
+                      tagsCount[temp ]  = 1;
+                      console.log(tagsCount);
+                  }else{
+                      var pos = tags.indexOf(temp);
+                      tagsCount[pos] = tagsCount[pos] + 1 ;
+                  }
+              }
+          }
+        }
+        //console.log(tagsCount);
+    })
+}
 y()

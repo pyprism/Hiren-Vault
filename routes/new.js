@@ -18,11 +18,11 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
     var statusData;
     database.create(req, ee);
-    ee.on('status', function(data){
+    ee.on('data', function(data){
         statusData = data;
         res.render('newdata', {
             title : 'Add More Data',
-            status : statusData
+            list: data
         })
     });
 
