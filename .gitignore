@@ -1,3 +1,6 @@
+bin/
+include/
+lib/
 .idea/
-node_modules/
-auth.js
+*.pyc
+*.pyo
