@@ -1,0 +1,20 @@
+{
+  "name": "Hiren-Pass",
+  "version": "0.0.0",
+  "homepage": "https://github.com/pyprism/Hiren-Pass",
+  "authors": [
+    "pyprism <git.pyprism@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.1.0"
+  }
+}
