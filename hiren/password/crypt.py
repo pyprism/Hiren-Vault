@@ -25,4 +25,4 @@ def decrypt(ciphertext, key):
 
 x = encrypt("hello", "@##4edff")
 print(x)
-print(decrypt(x, "nisha"))
+print(decrypt(x, "nothing"))
