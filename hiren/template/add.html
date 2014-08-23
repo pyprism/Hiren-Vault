@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <form action="/add" method="post">{% csrf_token %}
+                oa
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
