@@ -19,6 +19,7 @@ def encrypt(plantext, key):
 
 def decrypt(ciphertext, key):
     cipher = AES.new(digest(key))
+    print(cipher.decrypt(ciphertext))
     dec = cipher.decrypt(ciphertext).decode('utf-8')
     l = dec.count('{')
     return dec[:len(dec)-l]
