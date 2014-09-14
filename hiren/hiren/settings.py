@@ -17,12 +17,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't8u@9sjdg%ks5p*i$3&99v4(+*7@6_+#dnoiyc_vz2kaw&hzy8'
+
+path = os.path.join(BASE_DIR, 'secret.txt')
+secret_file = open(path, 'r')
+SECRET_KEY = secret_file.read()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -61,6 +64,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'backup': {
+        'NAME': '',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': '',
+        'PASSWORD': ''
     }
 }
 
