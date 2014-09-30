@@ -42,7 +42,7 @@ class Crypt():
 
     def encrypt(self, plaintext, key):
         cipher = AES.new(self.digest(key))
-        return cipher.encrypt(pad(plaintext))
+        return cipher.encrypt(self.pad(plaintext))
 
     def decrypt(self, ciphertext, key):
         cipher = AES.new(self.digest(key))
@@ -52,3 +52,7 @@ class Crypt():
             return dec[:len(dec)-l]
         except UnicodeDecodeError:  # When the password is wrong
          return False
+
+x = Crypt()
+y = x.encrypt("hellossassasassssssssss#$%#TCrtc36fc4wfc4wq9fe", "@##4edff")
+print(x.decrypt(y, "@##4edf"))
