@@ -24,7 +24,7 @@ class Secret:
         except UnicodeDecodeError:  # When the password is wrong
             return False
 
-# x = Crypt()
+# x = Secret()
 # y = x.encrypt("hello", "@##4edff")
-# print(y)
+# print(y.decode("utf-8"))
 # print(x.decrypt(y, "@##4edff"))
