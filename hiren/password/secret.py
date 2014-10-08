@@ -1,5 +1,6 @@
 from Crypto.Cipher import AES
 import hashlib
+import base64
 
 
 class Secret:
@@ -13,18 +14,18 @@ class Secret:
 
     def encrypt(self, plaintext, key):
         cipher = AES.new(self.digest(key))
-        return cipher.encrypt(self.pad(plaintext))
+        return base64.b64encode(cipher.encrypt(self.pad(plaintext)))
 
     def decrypt(self, ciphertext, key):
         cipher = AES.new(self.digest(key))
         try:
-            dec = cipher.decrypt(ciphertext).decode('utf-8')
+            dec = cipher.decrypt(base64.b64decode(ciphertext)).decode('utf-8')
             l = dec.count('{')
             return dec[:len(dec)-l]
         except UnicodeDecodeError:  # When the password is wrong
             return False
 
 # x = Secret()
-# y = x.encrypt("hello", "@##4edff")
-# print(y.decode("utf-8"))
+# y = x.encrypt("helloaSDAFDAsdfffffffffffffffFFFFFFFFFFASDAsdASD", "@##4edff")
+# print(y)
 # print(x.decrypt(y, "@##4edff"))
