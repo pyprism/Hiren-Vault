@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <td>URL</td>
+        <td>User Name</td>
+        <td>Email</td>
+        <td>Password</td>
+        <td>Tag</td>
+        <td>Optinal Note</td>
+        <td>Added</td>
+        <td>Updated</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td> {{ data.site_url }}</td>
+        <td> {{ data.username }}</td>
+        <td> {{ data.email }}</td>
+        <td> {{ password }}</td>
+        <td> {{ data.tags }}</td>
+        <td> {{ data.note }}</td>
+        <td> {{ data.added_at }}</td>
+        <td> {{ data.updated_at }}</td>
+    </tr>
+    </tbody>
+    </table>
+{% endblock %}
