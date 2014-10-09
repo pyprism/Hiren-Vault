@@ -37,7 +37,7 @@ def logout(request):
 def browse(request):
     if request.user.is_authenticated():
         result = Password.objects.all()
-        return HttpResponse(result[1])
+        return render(request, 'browse.html', {'data': result})
     else:
         return HttpResponse("U r not logged in")
 
@@ -51,15 +51,46 @@ def add(request):
             url = request.POST.get('url')
             tag = request.POST.get('tag')
             note = request.POST.get('note')
+            key = request.POST.get('key')
             encrypt = Secret()
-            encrypted = encrypt.encrypt(password, 'hello')
-            print(encrypted)
-            x = Password(username=username, password=encrypted,
-                         email=email, site_url=url, tags=tag, note=note, added_at=timezone.now())
-            x.save()
-            #print(encrypt.encrypt("hello", "@##4edff"))
-            return HttpResponse("X")
+            encrypted = encrypt.encrypt(password, key)
+            data_mama = Password(username=username, password=encrypted,
+                                 email=email, site_url=url, tags=tag, note=note, added_at=timezone.now())
+            data_mama.save()
+            messages.info(request, 'Credential saved successfully')
+            return render(request, 'add.html')
         else:
             return render(request, 'add.html')
     else:
         return redirect('/')
+
+
+def show(request, ids):
+    if request.user.is_authenticated():
+        return render(request, 'show.html', {'id': ids})
+
+
+def decrypt(request, ids):
+    if request.user.is_authenticated():
+        pass
+
+
+def edit(request, ids):
+    if request.user.is_authenticated():
+        data = Password.objects.filter(id=ids)
+        return render(request, 'edit.html', {'data': data[0]})
+
+
+def reveal(request):
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            ids = request.POST.get('id')
+            key = request.POST.get('key')
+            data = Password.objects.filter(id=ids)
+            decrypt = Secret()
+            if decrypt.decrypt(data[0].password, key):
+                password = decrypt.decrypt(data[0].password, key)
+                return render(request, 'result.html', {'data': data[0], 'password': password})
+            else:
+                messages.error(request, 'Your key is not correct')
+                return redirect('/id/show' + ids)
