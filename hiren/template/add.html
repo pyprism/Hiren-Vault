@@ -2,7 +2,24 @@
 {% block content %}
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
+            {% if messages %}
+              <div class="alert alert-info" role="alert">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
             <form action="/add" method="post">{% csrf_token %}
+                <div class="form-group">
+
+                    <label>Key</label>
+
+                    <input type="password" class="form-control" name="key" placeholder="Secret Key">
+
+                </div>
+                <hr/>
                 <div class="form-group">
 
                     <label>URL</label>
@@ -52,7 +69,7 @@
 
                 </div>
 
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Add</button>
 
             </form>
 
