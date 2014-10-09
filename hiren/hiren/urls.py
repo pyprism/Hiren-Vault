@@ -14,4 +14,8 @@ urlpatterns = patterns('',
     url(r'^logout$', 'password.views.logout'),
     url(r'^add$', 'password.views.add'),
     url(r'^browse$', 'password.views.browse'),
+    url(r'^id/(?P<ids>\d+)/show$', 'password.views.show'),
+    url(r'^id/(?P<ids>\d+)/decrypt$', 'password.views.decrypt'),
+    url(r'^id/(?P<ids>\d+)/edit$', 'password.views.edit'),
+    url(r'^reveal$', 'password.views.reveal'),
 )
