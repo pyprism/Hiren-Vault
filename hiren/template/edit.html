@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            {% if messages %}
+              <div class="alert alert-info" role="alert">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            <form action="/update" method="post">{% csrf_token %}
+                <div class="form-group">
+
+                    <label>Key</label>
+
+                    <input type="text" class="form-control" name="key" placeholder="Secret Key">
+
+                </div>
+                <hr/>
+                <div class="form-group">
+
+                    <label>URL</label>
+
+                    <input type="text" class="form-control" name="url" value="{{ data.site_url }}" placeholder="URL">
+
+                </div>
+                <div class="form-group">
+
+                    <label>User Name</label>
+
+                    <input type="text" class="form-control" name="username" placeholder="Username" value="{{ data.username }}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Email</label>
+
+                    <input type="email" class="form-control" name="email" placeholder="Email" value="{{ data.email }}">
+
+                </div>
+
+                <div class="form-group">
+
+
+                    {% if password %}
+                    <label>Password</label>
+                    <input type="text" class="form-control" id="inputPassword" name="password" placeholder="Password" value="{{ password }}" >
+                    {% else %}
+                    <label>Encrypted Password, dont edit !!</label>
+                    <input type="text" class="form-control" id="inputPassword" name="password" placeholder="Password" value="{{ data.password }}" >
+                    {% endif %}
+                    <br/>
+                    <button type="button" class="btn btn-info" id="generate">Generate Password</button>
+                    Size <input type="number" min="5" max="100"  value="12"  id="range">
+                </div>
+
+                <div class="form-group">
+
+                    <label>Tag</label>
+
+                    <input type="text" class="form-control"  name="tag" placeholder="tag" value="{{ data.tags }}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label >Optional Note</label>
+                    <br/>
+                    <textarea name="note" cols="41" rows="4" >{{ data.note }}</textarea>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}
