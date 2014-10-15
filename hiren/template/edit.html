@@ -6,7 +6,7 @@
                 <div class="alert alert-info" role="alert">
                     <ul class="messages">
                         {% for message in messages %}
-                            <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -17,9 +17,9 @@
 
                     <label>Key</label>
 
-                    <input type="text" class="form-control" name="key" placeholder="Secret Key">
+                    <input type="password" class="form-control" name="key" placeholder="Secret Key">
                     <br/>
-                    <button type="submit" class="btn btn-primary">Reveal the boring password</button>
+                    <button type="submit" class="btn btn-primary">Reveal the password and note fields</button>
                 </div>
             </form>
             <hr/>
@@ -30,7 +30,7 @@
 
                     <label>Key</label>
 
-                    <input type="text" class="form-control" name="key" placeholder="Secret Key">
+                    <input type="text" class="form-control" name="key" placeholder="Secret Key" required>
                 </div>
             <hr/>
             {% endif %}
@@ -63,11 +63,17 @@
                     {% if password %}
                         <label>Password</label>
                         <input type="text" class="form-control" id="inputPassword" name="password" placeholder="Password" value="{{ password }}" >
+                        <br/>
                         <button type="button" class="btn btn-info" id="generate">Generate Password</button>
                         Size <input type="number" min="5" max="100"  value="12"  id="range">
-                    {% else %}
-                        <label>Encrypted Password</label>
-                        <input type="text" class="form-control" disabled="disabled" id="inputPassword" name="password" placeholder="Password" value="{{ data.password }}" >
+
+                        <div class="form-group">
+
+                        <label >Optional Note</label>
+                        <br/>
+                        <textarea name="note" cols="41" rows="4" >{{ note }}</textarea>
+
+                </div>
                     {% endif %}
                     <br/>
                 </div>
@@ -80,13 +86,6 @@
 
                 </div>
 
-                <div class="form-group">
-
-                    <label >Optional Note</label>
-                    <br/>
-                    <textarea name="note" cols="41" rows="4" >{{ data.note }}</textarea>
-
-                </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
 
