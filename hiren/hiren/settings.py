@@ -23,9 +23,9 @@ secret_file = open(path, 'r')
 SECRET_KEY = secret_file.read()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -61,13 +61,13 @@ WSGI_APPLICATION = 'hiren.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'backup': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'backup': {
-        'NAME': '',
-        'ENGINE': 'django.db.backends.mysql',
+    'default': {
+        'NAME': 'hiren_password',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': '',
         'PASSWORD': ''
     }
