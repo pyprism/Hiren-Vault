@@ -11,7 +11,21 @@
                 </ul>
               </div>
             {% endif %}
+            <form action="/search" method="post">{% csrf_token %}
+             <div class="form-group" style="display: inline">
+                <label for="exampleInputEmail1">Search</label>
+                <input type="text" class="form-control"  name="search" placeholder="Enter search term">
+
+            <select name="option" class="form-control">
+                <option value="url">Url</option>
+                <option value="tags">Tag</option>
+                <option value="username">Username</option>
+                <option value="email">Email</option>
+            </select>
+            </div>
+            </form>
         </div>
+
     <table class="table table-bordered table-hover">
     <thead>
     <tr>
@@ -19,7 +33,6 @@
         <td>User Name</td>
         <td>Email</td>
         <td>Tag</td>
-        <td>Optinal Note</td>
         <td>Added</td>
         <td>Updated</td>
         <td>Edit/Show</td>
@@ -32,7 +45,6 @@
         <td> {{ i.username }}</td>
         <td> {{ i.email }}</td>
         <td> {{ i.tags }}</td>
-        <td> {{ i.note }}</td>
         <td> {{ i.added_at }}</td>
         <td> {{ i.updated_at }}</td>
         <td>
@@ -43,6 +55,23 @@
     {% endfor %}
     </tbody>
     </table>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if data.has_previous %}
+            <a href="?page={{ data.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ data.number }} of {{ data.paginator.num_pages }}.
+        </span>
+
+        {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+    </div>
+
 
     {% else %}
         You dont have any data right now
