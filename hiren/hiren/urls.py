@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^id/(?P<ids>\d+)/edit$', 'password.views.edit'),
     url(r'^delete$', 'password.views.delete'),
     url(r'^reveal$', 'password.views.reveal'),
+    url(r'^search$', 'password.views.search'),
 )
