@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+    {% if data %}
     <table class="table table-bordered table-hover">
     <thead>
     <tr>
@@ -26,4 +27,40 @@
     </tr>
     </tbody>
     </table>
+
+    {% elif result %}
+
+
+    <table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <td>URL</td>
+        <td>User Name</td>
+        <td>Email</td>
+        <td>Tag</td>
+        <td>Added</td>
+        <td>Updated</td>
+        <td>Edit/Show</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for data in result %}
+    <tr>
+        <td> {{ data.site_url }}</td>
+        <td> {{ data.username }}</td>
+        <td> {{ data.email }}</td>
+        <td> {{ data.tags }}</td>
+        <td> {{ data.added_at }}</td>
+        <td> {{ data.updated_at }}</td>
+        <td>
+            <a href="/id/{{ data.id }}/show"><button class="btn-default btn btn-xs">Show Password</button></a>
+            <a href="/id/{{ data.id }}/edit"><button class="btn-default btn btn-xs">Edit</button></a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+        Sorry , no results were found .
+    {% endif %}
 {% endblock %}
