@@ -24,8 +24,3 @@ class Secret:
             return dec[:len(dec)-l]
         except UnicodeDecodeError:  # When the password is wrong
             return False
-
-# x = Secret()
-# y = x.encrypt("helloaSDAFDAsdfffffffffffffffFFFFFFFFFFASDAsdASD", "@##4edff")
-# print(y)
-# print(x.decrypt(y, "@##4edff"))
