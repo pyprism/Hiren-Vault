@@ -11,4 +11,5 @@ $(document).ready(function() {
         }
         $('#inputPassword').val(retVal);
     });
+
 });
