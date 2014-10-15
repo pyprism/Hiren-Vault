@@ -12,8 +12,8 @@
               </div>
             {% endif %}
             <form action="/search" method="post">{% csrf_token %}
-             <div class="form-group" style="display: inline">
-                <label for="exampleInputEmail1">Search</label>
+             <div class="form-group form-inline">
+                <label >Search</label>
                 <input type="text" class="form-control"  name="search" placeholder="Enter search term">
 
             <select name="option" class="form-control">
