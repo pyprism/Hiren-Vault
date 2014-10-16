@@ -18,4 +18,4 @@ class Password(models.Model):
 
 
 class Recent(models.Model):
-    obj = models.ForeignKey(Password)
+    obj = models.IntegerField(blank=True, null=True)
