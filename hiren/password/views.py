@@ -77,6 +77,8 @@ def add(request):
             data_mama = Password(username=username, password=encrypted_pass,
                                  email=email, site_url=url, tags=tag, note=encrypted_note, added_at=timezone.now())
             data_mama.save()
+            data_mama.pk = None
+            data_mama.save(using='backup')
             messages.info(request, 'Credential saved successfully')
             return render(request, 'add.html')
         else:
@@ -118,6 +120,8 @@ def update(request, ids):
                 obj.tags = tag
                 obj.updated_at = timezone.now()
                 obj.save()
+                obj.pk = None
+                obj.save(using='backup')
                 messages.info(request, 'Entry updated')
                 return redirect('/browse')
             else:
@@ -133,6 +137,8 @@ def update(request, ids):
                 obj.password = encrypted_pass
                 obj.updated_at = timezone.now()
                 obj.save()
+                obj.pk = None
+                obj.save(using='backup')
                 messages.info(request, 'Entry updated')
                 return redirect("/browse")
 
@@ -161,6 +167,8 @@ def delete(request):
             ids = request.POST.get('id')
             obj = Password.objects.get(id=ids)
             obj.delete()
+            backup = Password.objects.using('backup').get(id=ids)
+            backup.delete()
             messages.info(request, 'Entry deleted')
             return redirect('/browse')
 
