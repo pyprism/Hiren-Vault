@@ -15,3 +15,7 @@ class Password(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.site_url, self.password)
+
+
+class Recent(models.Model):
+    obj = models.ForeignKey(Password)
