@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.http import HttpResponse
-from .models import Password
+from .models import Password, Recent
 from django.utils import timezone
 from .secret import Secret
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -171,15 +171,11 @@ def reveal(request):
             ids = request.POST.get('id')
             key = request.POST.get('key')
             data = Password.objects.get(id=ids)
-            if Recent.objects.count() <= 4:
-                Recent(used=data).save()
-            else:
-                Recent.objects.all()[2:3].delete()
-                Recent(used=data).save()
             decrypt = Secret()
             if decrypt.decrypt(data.password, key):
                 password = decrypt.decrypt(data.password, key)
-                return render(request, 'result.html', {'data': data, 'password': password})
+                note = decrypt.decrypt(data.note, key)
+                return render(request, 'result.html', {'data': data, 'password': password, 'note': note})
             else:
                 messages.error(request, 'Your key is not correct')
                 return redirect('/id/show' + ids)
@@ -201,3 +197,7 @@ def search(request):
             return render(request, "result.html", {'result': result})
         else:
             return redirect("/browse")
+
+
+def recent(request): #TODO
+    result = Recent.objects.all()
