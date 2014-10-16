@@ -1,8 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
-sudo npm install -g bower
 virtualenv -p /usr/bin/python3.4 .
-source bin/activate.fish
+source bin/activate
 pip install -r requirements.txt
 bower install
 cd hiren/
