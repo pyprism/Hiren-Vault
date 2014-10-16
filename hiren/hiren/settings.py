@@ -23,7 +23,7 @@ secret_file = open(path, 'r')
 SECRET_KEY = secret_file.read()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
