@@ -4,3 +4,4 @@ django-debug-toolbar==1.2.1
 psycopg2==2.5.4
 sqlparse==0.1.11
 ipython==2.3.0
+gunicorn==19.1.1
