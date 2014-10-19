@@ -186,7 +186,7 @@ def reveal(request):
                 return render(request, 'result.html', {'data': data, 'password': password, 'note': note})
             else:
                 messages.error(request, 'Your key is not correct')
-                return redirect('/id/show' + ids)
+                return redirect('/id/show/' + ids)
 
 
 def search(request):
