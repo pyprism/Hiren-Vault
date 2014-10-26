@@ -69,7 +69,8 @@ DATABASES = {
         'NAME': 'hiren_password',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': '',
-        'PASSWORD': ''
+        'PASSWORD': '',
+        'HOST': 'localhost',
     }
 }
 
