@@ -9,3 +9,4 @@ hiren/db.sqlite3
 hiren/static/bootstrap
 hiren/static/font-awesome
 hiren/static/jquery
+env/
