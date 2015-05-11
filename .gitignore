@@ -10,3 +10,5 @@ hiren/static/bootstrap
 hiren/static/font-awesome
 hiren/static/jquery
 env/
+static/bower
+db.sqlite3
