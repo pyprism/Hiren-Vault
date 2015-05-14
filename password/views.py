@@ -11,4 +11,4 @@ Date : 12 May, 2015
 class Authentication(View):
 
     def get(self, request, *args, **kwargs):
-        return HttpResponse("sas")
+        return HttpResponse("test")
