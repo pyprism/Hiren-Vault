@@ -3,8 +3,10 @@ __author__ = 'prism'
 Date : 12 May, 2015
 '''
 from django.conf.urls import include, url
-from .views import Authentication
+#from .views import Authentication
+from .views import Login, Logout
 
 urlpatterns = [
-    url(r'^$', Authentication.as_view(), name='auth'),
+    url(r'^$', Login.as_view(), name='auth'),
+    url(r'^logout/$', Logout.as_view())
 ]
