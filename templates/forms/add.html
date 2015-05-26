@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Hiren->Add New Data</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'forms/add/style.css' %}" />
+</head>
+<body>
+<div class="container">
+	<section id="content">
+		<form action=""> {% csrf_token %}
+			<h1>Add New Data</h1>
+			<div>
+				<input type="text" placeholder="Username" name="username" />
+			</div>
+			<div>
+				<input type="password" placeholder="Password" name="password" />
+			</div>
+			<div>
+				<input type="text" placeholder="URL" name="site_url" />
+			</div>
+			<div>
+				<input type="text" placeholder="Email" name="email" />
+			</div>
+			<div>
+				<input type="text" placeholder="URL" required="" name="site_url" />
+			</div>
+			<div>
+				<textarea type="text" placeholder="URL" required="" name="site_url" />
+			</div>
+
+		</form> <!-- form -->
+		<!--<div class="button">
+			<a href="#">Download source file</a>
+		</div><!-- button -->
+	</section><!-- content -->
+</div><!-- container -->
+</body>
+</html>
