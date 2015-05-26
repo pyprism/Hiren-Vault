@@ -22,19 +22,22 @@ from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView, View
+from .forms import PasswordForm
 
 class Login(FormView):
     form_class = AuthenticationForm
     template_name = 'index.html'
+    success_url = '/dashboard'
 
     def form_valid(self, form):
-        redirect_to = settings.LOGIN_REDIRECT_URL
-        print('before :D ')
+        #redirect_to = settings.LOGIN_REDIRECT_URL
+        #print('before :D ')
         login(self.request, form.get_user())
-        print('after :/ ')
+        #print('after :/ ')
         #if self.request.session.test_cookie_worked():
         #    self.request.session.delete_test_cookie()
-        return HttpResponseRedirect(redirect_to)
+        #return HttpResponseRedirect(redirect_to)
+        return super(Login, self).form_valid(form)
 
     def form_invalid(self, form):
         print('invalid')
@@ -49,3 +52,19 @@ class Logout(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
+
+#@login_required()
+class AddData(FormView):
+    """
+      Add new data
+    """
+    form_class = PasswordForm
+    success_url = '/dashboard'
+    template_name = 'forms/add.html'
+
+    def form_valid(self, form):
+        print(self.request.POST)
+        return super(AddData, self).form_valid(form)
+
+    def form_invalid(self, form):
+        print('invalid')
