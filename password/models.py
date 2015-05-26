@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Password(models.Model):
-    tags = models.CharField(max_length=30, blank=True, null=True)
     site_url = models.URLField(max_length=200)
     username = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(max_length=200, blank=True, null=True)
@@ -16,6 +15,14 @@ class Password(models.Model):
     def __str__(self):
         return '%s %s' % (self.site_url, self.password)
 
+class Tag(models.Model):
+    password = models.ForeignKey(Password)
+    tags = models.CharField(max_length=30, blank=True, null=True)
+
+    def __str__(self):
+        return '%s %s' % (self.password, self.tags)
+
 
 class Recent(models.Model):
     obj = models.IntegerField(blank=True, null=True)
+
