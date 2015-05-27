@@ -22,7 +22,11 @@ from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView, View
-from .forms import PasswordForm
+from .models import Password
+from django.views.generic.edit import CreateView
+from django.utils import timezone
+from .crypto import Secret
+
 
 class Login(FormView):
     form_class = AuthenticationForm
@@ -30,41 +34,40 @@ class Login(FormView):
     success_url = '/dashboard'
 
     def form_valid(self, form):
-        #redirect_to = settings.LOGIN_REDIRECT_URL
-        #print('before :D ')
         login(self.request, form.get_user())
-        #print('after :/ ')
-        #if self.request.session.test_cookie_worked():
-        #    self.request.session.delete_test_cookie()
-        #return HttpResponseRedirect(redirect_to)
         return super(Login, self).form_valid(form)
 
     def form_invalid(self, form):
         print('invalid')
         return self.render_to_response(self.get_context_data(form=form))
 
-    #@method_decorator(sensitive_post_parameters('password'))
-    #def dispatch(self, request, *args, **kwargs):
-    #    #request.session.set_test_cookie()
-    #    return super(Login, self).dispatch(request, *args, **kwargs)
 
 class Logout(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
 
-#@login_required()
-class AddData(FormView):
+class LoggedInMixin(object):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoggedInMixin, self).dispatch(*args, **kwargs)
+
+class AddData(LoggedInMixin, CreateView):
     """
       Add new data
     """
-    form_class = PasswordForm
+    model = Password
     success_url = '/dashboard'
     template_name = 'forms/add.html'
+    fields = ['site_url', 'username', 'email', 'password', 'note']
 
     def form_valid(self, form):
-        print(self.request.POST)
+        Hiren = Secret(self.request.POST.get('key'))
+        form.instance.password = Hiren.encrypt(self.request.POST.get('password'))
+        form.instance.note = Hiren.encrypt(self.request.POST.get('note'))
+        form.instance.added_at = timezone.now()
         return super(AddData, self).form_valid(form)
 
     def form_invalid(self, form):
-        print('invalid')
+        return self.render_to_response(self.get_context_data(form=form))
