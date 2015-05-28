@@ -1,18 +1,4 @@
-# from django.shortcuts import render
-# from django.views.generic import View
-# from django.views.generic import TemplateView
-# from django.http import HttpResponse
-#
-# '''
 # Date : 12 May, 2015
-# '''
-# # Create your views here.
-#
-#
-# #class Authentication(TemplateView):
-#
-# #    template_name = 'index.html'
-#     #def get(self, request, *args, **kwargs):
 
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
