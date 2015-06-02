@@ -76,7 +76,7 @@ def browse(request):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             data = paginator.page(paginator.num_pages)
-        return render(request, 'browse.html', {'data': data})
+        return render(request, 'browse.html', {'data': data, 'title': 'Hiren->Browse'})
     else:
         return HttpResponse("U r not logged in")
 
@@ -122,7 +122,7 @@ def add(request):
 
 def show(request, ids):
     if request.user.is_authenticated():
-        return render(request, 'show.html', {'id': ids})
+        return render(request, 'show.html', {'id': ids, 'title': 'Hiren->Show'})
 
 
 def update(request, ids):
@@ -156,7 +156,7 @@ def update(request, ids):
                 obj.pk = None
                 obj.save(using='backup')
                 messages.info(request, 'Entry updated')
-                return redirect('/browse')
+                return redirect('/dashboard')
             else:
                 encrypt = Secret(key)
                 encrypted_pass = encrypt.encrypt(password)
@@ -173,7 +173,7 @@ def update(request, ids):
                 obj.pk = None
                 obj.save(using='backup')
                 messages.info(request, 'Entry updated')
-                return redirect("/browse")
+                return redirect("/dashboard")
 
 
 def edit(request, ids):
@@ -188,10 +188,10 @@ def edit(request, ids):
                 return render(request, 'edit.html', {'data': data, 'password': password, 'note': note})
             else:
                 messages.error(request, 'Your key is not correct')
-                return render(request, 'edit.html', {'data': data})
+                return render(request, 'edit.html', {'data': data, 'title': 'Hiren->Edit'})
         else:
             data = Password.objects.get(id=ids)
-            return render(request, 'edit.html', {'data': data})
+            return render(request, 'edit.html', {'data': data, 'title': 'Hiren->Edit'})
 
 
 def delete(request):
@@ -216,7 +216,11 @@ def reveal(request):
             if decrypt.decrypt(data.password):
                 password = decrypt.decrypt(data.password)
                 note = decrypt.decrypt(data.note)
-                return render(request, 'result.html', {'data': data, 'password': password, 'note': note})
+                tag = Tag.objects.get(password=data.id)
+                print(tag)
+                print(tag.tags)
+                return render(request, 'result.html', {'data': data, 'password': password,
+                                                       'note': note, 'tag': tag.tags})
             else:
                 messages.error(request, 'Your key is not correct')
                 return redirect('/id/show/' + ids)
