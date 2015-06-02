@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^$', Login.as_view(), name='auth'),
     url(r'^logout/$', Logout.as_view()),
     url(r'^add', 'password.views.add'),
-    url(r'^browse$', 'password.views.browse'),
+    url(r'^dashboard$', 'password.views.browse'),
     url(r'^id/(?P<ids>\d+)/show$', 'password.views.show'),
     url(r'^id/(?P<ids>\d+)/update$', 'password.views.update'),
     url(r'^id/(?P<ids>\d+)/edit$', 'password.views.edit'),
