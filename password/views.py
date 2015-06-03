@@ -13,29 +13,29 @@ from django.views.generic.edit import CreateView
 from django.utils import timezone
 from .crypto import Secret
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 
-class Login(FormView):
-    form_class = AuthenticationForm
-    template_name = 'index.html'
-    success_url = '/dashboard'
-
-    def form_valid(self, form):
-        login(self.request, form.get_user())
-        return super(Login, self).form_valid(form)
-
-    def form_invalid(self, form):
-        print('invalid')
-        return self.render_to_response(self.get_context_data(form=form))
-
-
-class Logout(View):
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
+# class Login(FormView):
+#     form_class = AuthenticationForm
+#     template_name = 'index.html'
+#     success_url = '/dashboard'
+#
+#     def form_valid(self, form):
+#         login(self.request, form.get_user())
+#         return super(Login, self).form_valid(form)
+#
+#     def form_invalid(self, form):
+#         print('invalid')
+#         return self.render_to_response(self.get_context_data(form=form))
+#
+#
+# class Logout(View):
+#     def get(self, request, *args, **kwargs):
+#         logout(request)
+#         return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
 
 # class LoggedInMixin(object):
 #
@@ -62,6 +62,25 @@ class Logout(View):
 #     def form_invalid(self, form):
 #         return self.render_to_response(self.get_context_data(form=form))
 
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = auth.authenticate(username=username, password=password)
+        if user:
+            auth.login(request, user)
+            return redirect('/dashboard')
+        else:
+            messages.error(request, 'Username/Password is not valid!')
+            return redirect("/")
+    else:
+        return render(request, 'index.html')
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("/")
 
 def browse(request):
     if request.user.is_authenticated():
