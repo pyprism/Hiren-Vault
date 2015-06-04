@@ -4,14 +4,25 @@ from selenium import webdriver
 from django.core.urlresolvers import resolve
 from .views import login, browse
 from django.http import HttpRequest
+import os
 # Create your tests here.
 
 
 class LoginFunctionalTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
+        if 'TRAVIS' in os.environ:
+            username = os.environ.get('SAUCE_USERNAME', "pyprism")
+            access_key = os.environ.get('SAUCE_ACCESS_KEY', "")
+            sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
+            self.driver = webdriver.Remote(
+                desired_capabilities=self.desired_capabilities,
+                command_executor=sauce_url % (username, access_key)
+            )
+            self.driver.implicitly_wait(30)
+        else:
+            self.browser = webdriver.Firefox()
+            self.browser.implicitly_wait(3)
 
     def tearDown(self):
         self.browser.quit()
