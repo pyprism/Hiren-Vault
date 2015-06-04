@@ -11,13 +11,15 @@
 <div class="wrapper">
     <div class="container">
         <h1>Welcome</h1>
-        {% if form.errors %}
-           <p>Your username and password didn't match. Please try again.</p>
+        {% if  messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert"> {{  message }} </div>
+        {% endfor %}
         {% endif %}
         <form role="form" method="post" action="" class="form">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="password" placeholder="Password">
+            <input type="text" name="username" id='username-id' placeholder="Username">
+            <input type="password" name="password" id="password-id" placeholder="Password">
             <button type="submit" id="login-button">Login</button>
         </form>
     </div>
