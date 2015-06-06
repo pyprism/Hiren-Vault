@@ -2,9 +2,14 @@ __author__ = 'prism'
 __date__ = '5th June, 2015'
 
 from django.contrib.auth.models import User
+from selenium import webdriver
+import unittest
+import time
+import os
+from django.test import LiveServerTestCase
 
 
-class LoginFunctionalTest(unittest.TestCase):
+class LoginFunctionalTest(LiveServerTestCase):
 
     def setUp(self):
         if 'TRAVIS' in os.environ:
@@ -25,21 +30,21 @@ class LoginFunctionalTest(unittest.TestCase):
         self.browser.quit()
 
     def test_login_page(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         self.assertIn('Hiren->Login', self.browser.title)
 
     def test_login_form(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         user = User.objects.create_superuser('testHiren', 'myemail@test.com', 'testPass')
         user.save()
         username = self.browser.find_element_by_id('username-id')
         password = self.browser.find_element_by_id('password-id')
         submit = self.browser.find_element_by_id('login-button')
-        username.send_keys('nisha')
-        password.send_keys('1234')
+        username.send_keys('testHiren')
+        password.send_keys('testPass')
         submit.click()
-        time.sleep(10)
+        #time.sleep(10)
         location = self.browser.current_url
-        self.assertEqual('http://localhost:8000/dashboard', location)
+        self.assertEqual(self.live_server_url + '/dashboard', location)
 
