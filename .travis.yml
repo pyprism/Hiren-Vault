@@ -10,7 +10,6 @@ addons:
 
 install:
   - pip install -r requirements.txt --quiet
-  - pip install coveralls
   - pip install codecov
 
 before_script:
@@ -22,5 +21,4 @@ script:
   - coverage run --source=password manage.py test password
 
 after_success:
-  - coveralls
   - codecov
