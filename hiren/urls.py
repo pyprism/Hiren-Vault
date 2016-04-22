@@ -22,6 +22,7 @@ from password import views
 router = routers.DefaultRouter()
 router.register('vault', views.VaultViewSet)
 router.register('tag', views.TagViewSet)
+router.register('recent', views.RecentViewSet)
 
 urlpatterns = [
     url(r'^api-token-auth/', obtain_jwt_token),
