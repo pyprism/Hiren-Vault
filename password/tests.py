@@ -38,3 +38,37 @@ class ModelTest(TransactionTestCase):
         recent_items = Recent.objects.all()
         self.assertEqual(recent_items.count(), 1)
         self.assertEqual(recent_items[0].vault.id, 1)
+
+
+class VaultViewSetTest(TransactionTestCase):
+    """
+    Test Vault viewset
+    """
+    reset_sequences = True
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user('hiren', 'a@b.com', 'password')
+        self.client.force_authenticate(user=self.user)
+        self.tag = Tag.objects.create(name='tag object')
+        vault = Vault.objects.create(site_url='http://xyz.com', username='prism',
+                                     email='a@x.com', password='1234', note='note', tag=self.tag)
+
+    def test_login_works(self):
+        response = self.client.get('/api/vault/')
+        self.assertEqual(response.status_code, 200)
+
+        self.client.logout()
+        response = self.client.get('/api/vault/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_return_correct_item(self):  # todo learn mockg
+        response = self.client.get('/api/vault/1/')
+        #self.assertEqual(response.json(), {'site_url': 'http://xyz.com', 'username': 'prism',
+         #                                  'email': 'a@x.com', 'password': '1234', 'note': 'note', 'tag': self.tag})
+
+    def test_item_update_works(self):
+        response = self.client.patch('/api/vault/1/', {'username': 'bunny'})
+        #self.assertEqual(response.json(), {'site_url': 'http://xyz.com', 'username': 'bunny',
+         #                                  'email': 'a@x.com', 'password': '1234', 'note': 'note', 'tag': self.tag})
+        print(response.json())
