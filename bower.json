@@ -1,0 +1,23 @@
+{
+  "name": "bunny",
+  "description": ":secret: Password management application :secret:",
+  "main": "index.js",
+  "authors": [
+    "Ashutosh Das <git.pyprism@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/pyprism/Hiren-Pass",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "bootstrap": "^3.3.6",
+    "sweetalert": "^1.1.3"
+  }
+}
