@@ -21,3 +21,9 @@ class Tag(models.Model):
 class Recent(models.Model):
     vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
     accessed_at = models.DateTimeField(auto_now=True)
+
+
+class Secret(models.Model):
+    key = models.CharField(max_length=500)
+
+
