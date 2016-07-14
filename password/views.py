@@ -2,12 +2,13 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
-from .models import Vault, Recent, Tag
-from .serializers import VaultSerializer, TagSerializer, RecentSerializer
+from .models import Vault, Recent, Tag, Secret
+from .serializers import VaultSerializer, TagSerializer, RecentSerializer, SecretSerializer
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from django.utils import timezone
 from django.core import serializers
+from rest_framework import status
 
 
 class VaultViewSet(viewsets.ModelViewSet):
@@ -57,3 +58,39 @@ class RecentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Recent.objects.order_by('-id')
     serializer_class = RecentSerializer
+
+
+class SecretViewset(viewsets.ModelViewSet):
+    """
+        API endpoint that allows secret key  to be created, viewed ,edited.
+    """
+    authentication_classes = (SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+    queryset = Secret.objects.all()
+    serializer_class = SecretSerializer
+
+    def create(self, request, *args, **kwargs):
+        """
+        Check if secret key already exists
+        """
+        count = Secret.objects.all().count()
+        if count == 1:
+            content = {'error': 'key already exits'}
+            return Response(content, status.HTTP_403_FORBIDDEN)
+        else:
+            instance = self.request.data['key']
+            Secret.objects.create(key=instance)
+            response = {"done": "key created"}
+            return Response(response, status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk=None, *args, **kwargs):
+        bunny = {'error': 'method not supported :/'}
+        return Response(bunny, status.HTTP_403_FORBIDDEN)
+
+    def list(self, request, *args, **kwargs):
+        query = Secret.objects.all()
+        if query.count() == 0:
+            return Response(" :P ", status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = self.get_serializer(query, many=True)
+            return Response(serializer.data)
