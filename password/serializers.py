@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vault, Tag, Recent
+from .models import Vault, Tag, Recent, Secret
 
 
 class VaultSerializer(serializers.ModelSerializer):
@@ -20,3 +20,8 @@ class RecentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recent
+
+
+class SecretSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Secret
