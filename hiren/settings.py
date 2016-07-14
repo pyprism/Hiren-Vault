@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import json
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -108,6 +109,7 @@ else:
             'HOST': 'localhost',
             'PORT': '',
             'CONN_MAX_AGE': 600,
+            'atomic': True
             }
     }
 
@@ -160,6 +162,9 @@ REST_FRAMEWORK = {
     ),
 }
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000000),
+}
 
 WEBPACK_LOADER = {
     'DEFAULT': {
