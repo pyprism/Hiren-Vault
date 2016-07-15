@@ -30,7 +30,7 @@ export default class Login extends React.Component {
     render () {
         return <div className="login">
             <Helmet
-                title="Hiren-Music: Login"
+                title="Hiren-Vault: Login"
                 link={[
                     {"rel": "stylesheet", "href": "/static/css/login.css"},
                     {"rel": "icon", "href": "/static/favicon.ico"},
