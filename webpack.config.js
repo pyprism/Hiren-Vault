@@ -5,6 +5,7 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
     devtool: 'eval',
     entry: [
+         'babel-regenerator-runtime',
         './static/apps/app.jsx'
     ],
     output : {
@@ -18,7 +19,7 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    plugins: ['transform-decorators-legacy' ],
+                    plugins: [ 'transform-decorators-legacy', 'syntax-async-functions', 'transform-async-to-generator'],
                     presets: ['react', 'es2015', 'stage-0']
                 }
             }
