@@ -47,14 +47,15 @@ export default class Main extends React.Component {
         return (
             <div>
                 <Helmet
-                    title="Music: Dashboard"
+                    title="Hiren::Vault"
                     link={[
                     {"rel": "shortcut icon", "href": "/static/favicon.ico"},
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/bower/bootstrap/dist/css/bootstrap.min.css"},
                     {"rel": "stylesheet", "type":"text/css", "href": "/static/css/simple-sidebar.css"},
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/bower/font-awesome/css/font-awesome.min.css"},
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/bower/sweetalert/dist/sweetalert.css"},
-                    {"rel": "stylesheet", "type": "text/css", "href": "/static/css/react-bootstrap-table-all.min.css"}
+                    {"rel": "stylesheet", "type": "text/css", "href": "/static/css/react-bootstrap-table-all.min.css"},
+                    {"rel": "stylesheet", "type": "text/css", "href": "/static/bower/awesomplete/awesomplete.css"}
                 ]}
                 />
 
@@ -64,7 +65,7 @@ export default class Main extends React.Component {
                             <span className="glyphicon glyphicon-th-large" aria-hidden="true" />
                         </button>
                         <a className="navbar-brand" href="#">
-                            <i className="fa fa-heartbeat fa-4" /> Hiren Music</a>
+                            <i className="fa fa-heartbeat fa-4" /> Hiren Vault</a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -77,21 +78,17 @@ export default class Main extends React.Component {
                 <div id="wrapper">
                     <div id="sidebar-wrapper">
                         <ul className="sidebar-nav nav-pills nav-stacked" id="menu">
-
-                            <li className="active">
-                                <Link to="/dashboard/" ><span className="fa-stack fa-lg pull-left"><i className="fa fa-dashboard fa-stack-1x " /></span> Dashboard</Link>
-                            </li>
                             <li>
-                                <Link to="/dashboard/music/"><span className="fa-stack fa-lg pull-left"><i className="fa fa-music fa-stack-1x "/></span> Music</Link>
+                                <Link to="/app/passwords/"><span className="fa-stack fa-lg pull-left"><i className="fa fa-key fa-stack-1x "/></span> Passwords</Link>
                                 <ul className="nav-pills nav-stacked bunny">
-                                    <li><Link to="/dashboard/upload/"><span className="fa-stack fa-lg pull-left"><i className="fa fa-file-text fa-stack-1x "/></span> Upload New Music</Link></li>
+                                    <li><Link to="/app/password/create"><span className="fa-stack fa-lg pull-left"><i className="fa fa-save fa-stack-1x "/></span> Save New Password</Link></li>
                                 </ul>
                             </li>
                             <li>
-                                <Link to="/dashboard/albums/" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-headphones fa-stack-1x "/></span> Albums</Link>
+                                <Link to="/app/tags/" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-tags fa-stack-1x "/></span> Tags</Link>
                             </li>
                             <li>
-                                <Link to="/dashboard/tags" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-tags fa-stack-1x "/></span> Tags</Link>
+                                <Link to="/app/recent/" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-cc-discover fa-stack-1x "/></span> Recent</Link>
                             </li>
                             <li>
                                 <Link  to="#" activeStyle={{ color: '#315561'}} onClick= { this.logout }> <span className="fa-stack fa-lg pull-left"><i className="fa fa-sign-out fa-stack-1x "/></span> Log Out</Link>
