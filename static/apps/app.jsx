@@ -6,6 +6,7 @@ import Main from './components/Main.jsx';
 import Secret from './components/Secret.jsx';
 import Passwords from './components/Passwords.jsx';
 import PasswordForm from './components/PasswordForm.jsx';
+import Tags from './components/Tags.jsx';
 import {notFound} from './components/404.jsx';
 import axios from 'axios';
 
@@ -44,6 +45,7 @@ ReactDOM.render(
         <Route path="/app" onEnter={authRequired} component={Main}>
             <Route path="passwords" onEnter={keyRequired} component={Passwords} />
             <Route path="password/create" onEnter={keyRequired} component={PasswordForm} />
+            <Route path="tags" onEnter={keyRequired} component={Tags} />
             <Route path="*" component={notFound} />
         </Route>
     </Router>,
