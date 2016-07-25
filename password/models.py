@@ -3,9 +3,9 @@ from django.db import models
 
 class Vault(models.Model):
     site_url = models.URLField(max_length=600)
-    username = models.CharField(max_length=500, null=True)
-    email = models.CharField(max_length=500, null=True)
-    password = models.CharField(max_length=500)
+    username = models.TextField(null=True)
+    email = models.TextField(null=True)
+    password = models.TextField()
     note = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
