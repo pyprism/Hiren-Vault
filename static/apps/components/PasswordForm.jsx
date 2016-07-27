@@ -3,16 +3,24 @@ import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
 import axios from 'axios';
 import {encrypt, decrypt} from '../utils/pgp.js';
-import {encryptAsync} from '../utils/async_pgp.js';
+import {bunny} from '../ajax/password_form.js';
 
 
 export default class PasswordForm extends React.Component {
 
     editor(e){
-        console.log('s');
         e.preventDefault();
-        let x = encryptAsync(sessionStorage.getItem('key'), ReactDOM.findDOMNode(this.refs.tag).value);
-        console.log(x);
+        let data = []
+        data['site_url'] = ReactDOM.findDOMNode(this.refs.site_url).value;
+        data['username'] = ReactDOM.findDOMNode(this.refs.username).value;
+        data['email'] = ReactDOM.findDOMNode(this.refs.email).value;
+        data['tag'] = ReactDOM.findDOMNode(this.refs.tag).value;
+        data['password'] = ReactDOM.findDOMNode(this.refs.password).value;
+        data['note'] = ReactDOM.findDOMNode(this.refs.note).value;
+        bunny(data);
+        //let x = encrypt(sessionStorage.getItem('key'), ReactDOM.findDOMNode(this.refs.tag).value);
+        //console.log(x);
+
            /* axios({
                 method: 'post',
                 url: '/api/tag/',
@@ -41,6 +49,9 @@ export default class PasswordForm extends React.Component {
         (function () {  // function for tag autocomplete
             var input = document.getElementById("tag");
             var awesomplete = new Awesomplete(input);
+            awesomplete.data = function(item, input) {
+                return { label: item.name, value: item.id };
+            }
             axios({
                 method: 'get',
                 url: '/api/tag/',
@@ -48,7 +59,10 @@ export default class PasswordForm extends React.Component {
             }).then(function (response) {
                 let bunny = [];
                 response.data.forEach(function (data) {
-                    bunny.push(data.name);
+                    let nisha = {'name': '', 'id': ''};
+                    nisha['name'] = data.name;
+                    nisha['id'] = '' + data.id;
+                    bunny.push(nisha);
                 });
                 awesomplete.list = bunny;
             }).catch(function (response) {
@@ -80,7 +94,7 @@ export default class PasswordForm extends React.Component {
                     </div>
                     <div className="form-group">
                         <label >Tag</label>
-                        <input type="text"  ref="tag" id="tag" className="form-control awesomplete tag" />
+                        <input type="text" ref="tag" id="tag" className="form-control awesomplete tag" />
                     </div>
                     <div className="form-group">
                         <label >Password</label>
