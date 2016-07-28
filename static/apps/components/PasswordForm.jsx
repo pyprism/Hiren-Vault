@@ -10,27 +10,13 @@ export default class PasswordForm extends React.Component {
 
     editor(e){
         e.preventDefault();
-        let data = []
+        let data = [];
         data['site_url'] = ReactDOM.findDOMNode(this.refs.site_url).value;
         data['username'] = ReactDOM.findDOMNode(this.refs.username).value;
         data['email'] = ReactDOM.findDOMNode(this.refs.email).value;
         data['tag'] = ReactDOM.findDOMNode(this.refs.tag).value;
         data['password'] = ReactDOM.findDOMNode(this.refs.password).value;
         data['note'] = ReactDOM.findDOMNode(this.refs.note).value;
-        bunny(data);
-        //let x = encrypt(sessionStorage.getItem('key'), ReactDOM.findDOMNode(this.refs.tag).value);
-        //console.log(x);
-
-           /* axios({
-                method: 'post',
-                url: '/api/tag/',
-                data: {'name': ReactDOM.findDOMNode(this.refs.tag).value},
-                headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
-            }).then(function(response) {
-                $.notify("Tag Created", "success");
-            }).catch(function (err) {
-                sweetAlert("Oops!", err.data.name[0], "error");
-            });*/
     }
 
     componentDidMount(){
