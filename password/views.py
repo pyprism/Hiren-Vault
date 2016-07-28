@@ -34,6 +34,17 @@ class VaultViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    def get_serializer(self, *args, **kwargs):
+        """
+        enable bulk creation
+        """
+        if "data" in kwargs:
+            data = kwargs["data"]
+
+            if isinstance(data, list):
+                kwargs["many"] = True
+        return super(VaultViewSet, self).get_serializer(*args, **kwargs)
+
 
 class TagViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication)
