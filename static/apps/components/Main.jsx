@@ -79,15 +79,15 @@ export default class Main extends React.Component {
                         <ul className="sidebar-nav nav-pills nav-stacked" id="menu">
                             <li>
                                 <Link to="/app/passwords/"><span className="fa-stack fa-lg pull-left"><i className="fa fa-key fa-stack-1x "/></span> Passwords</Link>
-                                <ul className="nav-pills nav-stacked bunny">
-                                    <li><Link to="/app/password/create"><span className="fa-stack fa-lg pull-left"><i className="fa fa-save fa-stack-1x "/></span> Save New Password</Link></li>
-                                </ul>
+                            </li>
+                            <li>
+                                <Link to="/app/password/create"><span className="fa-stack fa-lg pull-left"><i className="fa fa-save fa-stack-1x "/></span> Save New Password</Link>
                             </li>
                             <li>
                                 <Link to="/app/tags/" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-tags fa-stack-1x "/></span> Tags</Link>
                             </li>
                             <li>
-                                <Link to="/app/recent/" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-cc-discover fa-stack-1x "/></span> Recent</Link>
+                                <Link to="/app/recent/" activeStyle={{ color: '#315561'}}> <span className="fa-stack fa-lg pull-left"><i className="fa fa-sort fa-stack-1x "/></span> Recent</Link>
                             </li>
                             <li>
                                 <Link  to="#" activeStyle={{ color: '#315561'}} onClick= { this.logout }> <span className="fa-stack fa-lg pull-left"><i className="fa fa-sign-out fa-stack-1x "/></span> Log Out</Link>
