@@ -1,14 +1,19 @@
 import axios from 'axios';
 import {encrypt, decrypt} from '../utils/pgp.js'
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 
 
-export const appState = observable({
-    bunny = []
+export let appState = observable({
+    bunny : [
+    {
+        'id' : 99,
+        'updated_at': 'sa'
+    }
+    ]
 });
 
-@action appState.load = async function(bugs) {
-    bugs.forEach(function(data) {
+appState.loadBunny = action(function(bugs) {
+    bugs.forEach(async function(data) {
         let temp = {};
         temp['id'] = data.id;
         temp['site_url'] = data.site_url;
@@ -19,15 +24,19 @@ export const appState = observable({
         temp['tag'] = await decrypt(sessionStorage.getItem('key'), data.tag);
         temp['created_at'] = data.created_at;
         temp['updated_at'] = data.updated_at;
-        this.bunny.push(temp);
-    }
-}
+        runInAction("update state after decrypting data", () => {
+            this.bunny.push(temp);
+        });
+        
+    });
+    console.log(this.bunny);
+});
 
 appState.fetch = async function() {
     let xoxo = await axios.get('/api/vault/', {
         headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
     });
-    this.load(xoxo.data);
+    this.loadBunny(xoxo.data);
 }
 
 
