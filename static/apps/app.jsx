@@ -9,6 +9,7 @@ import PasswordForm from './components/PasswordForm.jsx';
 import Tags from './components/Tags.jsx';
 import {notFound} from './components/404.jsx';
 import axios from 'axios';
+import {appState} from './store/passwords.js';
 
 
 function authRequired(nextState, replace) {
@@ -43,7 +44,7 @@ ReactDOM.render(
         <Route path="/" component={Login} />
         <Route path="/key" onEnter={authRequired} component={Secret} />
         <Route path="/app" onEnter={authRequired} component={Main}>
-            <Route path="passwords" onEnter={keyRequired} component={Passwords} />
+            <Route path="passwords" store={appState} onEnter={keyRequired} component={Passwords} />
             <Route path="password/create" onEnter={keyRequired} component={PasswordForm} />
             <Route path="tags" onEnter={keyRequired} component={Tags} />
             <Route path="*" component={notFound} />
