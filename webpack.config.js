@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
-    devtool: 'eval',
+    devtool: 'source-map',
     entry: [
          'babel-regenerator-runtime',
         './static/apps/app.jsx'
