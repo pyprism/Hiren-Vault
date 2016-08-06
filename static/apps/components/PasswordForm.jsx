@@ -17,6 +17,7 @@ export default class PasswordForm extends React.Component {
         data['tag'] = ReactDOM.findDOMNode(this.refs.tag).value;
         data['password'] = ReactDOM.findDOMNode(this.refs.password).value;
         data['note'] = ReactDOM.findDOMNode(this.refs.note).value;
+        bunny(data);
     }
 
     componentDidMount(){
