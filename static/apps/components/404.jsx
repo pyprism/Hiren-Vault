@@ -8,7 +8,7 @@ export function notFound() {
                 title="Vault::404"
             />
             <div className="center-block">
-                <img src="/static/404.gif" class="img-responsive" alt="Responsive image"/>
+                <img src="/static/404.gif" className="img-responsive" alt="Responsive image"/>
             </div>
 
         </div>
