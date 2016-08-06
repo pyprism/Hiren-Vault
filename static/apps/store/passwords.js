@@ -3,33 +3,30 @@ import {encrypt, decrypt} from '../utils/pgp.js'
 import {observable, action, computed, runInAction} from "mobx";
 
 
-export let appState = observable({
-    bunny : [
-    {
-        'id' : 99,
-        'updated_at': 'sa'
-    }
-    ]
+export var appState = observable({
+    bunny: []
 });
 
-appState.loadBunny = action(function(bugs) {
-    bugs.forEach(async function(data) {
+appState.loadBunny = action(function(bugs){
+    bugs.forEach(async data => {
         let temp = {};
         temp['id'] = data.id;
         temp['site_url'] = data.site_url;
+        temp['tag'] = data.tag;
         temp['email'] = await decrypt(sessionStorage.getItem('key'), data.email);
         temp['username'] = await decrypt(sessionStorage.getItem('key'), data.username);
         temp['password'] = await decrypt(sessionStorage.getItem('key'), data.password);
         temp['note'] = await decrypt(sessionStorage.getItem('key'), data.note);
-        temp['tag'] = await decrypt(sessionStorage.getItem('key'), data.tag);
+        //temp['tag'] = await decrypt(sessionStorage.getItem('key'), data.tag);
         temp['created_at'] = data.created_at;
         temp['updated_at'] = data.updated_at;
-        runInAction("update state after decrypting data", () => {
-            this.bunny.push(temp);
-        });
+        this.bunny.push(data);
+        //console.log(this.bunny);
+        //runInAction("update state after decrypting data", () => {
+        //    this.bunny.push(data);
+       // });
         
     });
-    console.log(this.bunny);
 });
 
 appState.fetch = async function() {
