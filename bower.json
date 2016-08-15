@@ -19,6 +19,7 @@
     "font-awesome": "^4.6.3",
     "bootstrap": "^3.3.6",
     "sweetalert": "^1.1.3",
-    "openpgp": "^2.3.2"
+    "openpgp": "^2.3.2",
+    "selectize": "selectize.js#^0.12.2"
   }
 }
