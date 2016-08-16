@@ -33,30 +33,68 @@ export default class PasswordForm extends React.Component {
             });
         })();
 
-        (function () {  // function for tag autocomplete
-            var input = document.getElementById("tag");
-            var awesomplete = new Awesomplete(input);
-            awesomplete.data = function(item, input) {
-                return { label: item.name, value: item.id };
-            }
-            axios({
-                method: 'get',
-                url: '/api/tag/',
-                headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
-            }).then(function (response) {
-                let bunny = [];
-                response.data.forEach(function (data) {
-                    let nisha = {'name': '', 'id': ''};
-                    nisha['name'] = data.name;
-                    nisha['id'] = '' + data.id;
-                    bunny.push(nisha);
+        /*(function () {  // function for tag autocomplete
+         var input = document.getElementById("tag");
+         var awesomplete = new Awesomplete(input);
+         awesomplete.data = function(item, input) {
+         return { label: item.name, value: item.id };
+         }
+         axios({
+         method: 'get',
+         url: '/api/tag/',
+         headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
+         }).then(function (response) {
+         let bunny = [];
+         response.data.forEach(function (data) {
+         let nisha = {'name': '', 'id': ''};
+         nisha['name'] = data.name;
+         nisha['id'] = '' + data.id;
+         bunny.push(nisha);
+         });
+         awesomplete.list = bunny;
+         }).catch(function (response) {
+         sweetAlert("Oops!", response.data, "error");
+         console.error(response);
+         });
+         })();*/
+
+        //(function () {
+        $('#tag').selectize({
+            delimiter: ',',
+            create: async function(input) {
+                let tag = await encrypt(sessionStorage.getItem('key'), input);
+                try {
+                    let response = await axios.post('/api/tag/', {'name': tag}, { 
+                    headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
                 });
-                awesomplete.list = bunny;
-            }).catch(function (response) {
-                sweetAlert("Oops!", response.data, "error");
-                console.error(response);
-            });
-        })();
+                    $.notify("A new tag created", "success");
+                } catch(e) {
+                    sweetAlert("Oops!", e.data.name[0], "error");
+                }
+                
+                console.log(response);
+                return {
+                    value: response.data['id'],
+                    text: input
+                }
+                /*axios({
+                    method: 'post',
+                    url: '/api/tag/',
+                    data: {'name': input},
+                    headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
+                }).then(function(response) {
+                    console.log(response.data['id']);
+                    $.notify("A new tag created", "success");
+                    return {
+                        value: response.data['id'],
+                        text: response.data['name']
+                    }
+                }).catch(function (err) {
+                    sweetAlert("Oops!", err.data.name[0], "error");
+                });*/
+            }
+        });
+        // });
     }
 
     render() {
@@ -81,7 +119,7 @@ export default class PasswordForm extends React.Component {
                     </div>
                     <div className="form-group">
                         <label >Tag</label>
-                        <input type="text" ref="tag" id="tag" className="form-control awesomplete tag" />
+                        <input type="text" ref="tag" id="tag" className="form-control tag" />
                     </div>
                     <div className="form-group">
                         <label >Password</label>
