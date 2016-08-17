@@ -56,88 +56,71 @@ export default class PasswordForm extends React.Component {
          sweetAlert("Oops!", response.data, "error");
          console.error(response);
          });
-         })();*/
+     })();*/
 
-        //(function () {
+     (async function () {
+        let  response = await axios.get('/api/tag/', {
+            headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
+        });
+        let bunny = [];
+        response.data.forEach(async function (data) {
+           let nisha = {'name': '', 'id': ''};
+           nisha['name'] = data.name;
+           nisha['id'] = '' + data.id;
+           bunny.push(nisha);
+       });
+        console.error(bunny);
         $('#tag').selectize({
             delimiter: ',',
-            create: async function(input) {
-                let tag = await encrypt(sessionStorage.getItem('key'), input);
-                try {
-                    let response = await axios.post('/api/tag/', {'name': tag}, { 
-                    headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
-                });
-                    $.notify("A new tag created", "success");
-                } catch(e) {
-                    sweetAlert("Oops!", e.data.name[0], "error");
-                }
-                
-                console.log(response);
-                return {
-                    value: response.data['id'],
-                    text: input
-                }
-                /*axios({
-                    method: 'post',
-                    url: '/api/tag/',
-                    data: {'name': input},
-                    headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
-                }).then(function(response) {
-                    console.log(response.data['id']);
-                    $.notify("A new tag created", "success");
-                    return {
-                        value: response.data['id'],
-                        text: response.data['name']
-                    }
-                }).catch(function (err) {
-                    sweetAlert("Oops!", err.data.name[0], "error");
-                });*/
-            }
+            valueField: 'id',
+            labelField: 'name',
+            searchField: ['name'],
+            options: bunny
         });
-        // });
-    }
+    })();
+}
 
-    render() {
-        return (
-            <div>
-                <Helmet
-                    title="Vault->Save Password"
-                />
+render() {
+    return (
+        <div>
+        <Helmet
+        title="Vault->Save Password"
+        />
 
-                <form className="form col-md-12 center-block" onSubmit={this.editor.bind(this)} >
-                    <div className="form-group">
-                        <label >URL:</label>
-                        <input type="url" required ref="site_url" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                        <label >Username</label>
-                        <input type="text"  ref="username" className="form-control"/>
-                    </div>
-                    <div className="form-group">
-                        <label >Email</label>
-                        <input type="email"  ref="email" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                        <label >Tag</label>
-                        <input type="text" ref="tag" id="tag" className="form-control tag" />
-                    </div>
-                    <div className="form-group">
-                        <label >Password</label>
-                        <input name="text"  required ref="password" id="inputPassword" className="form-control" />
-                        <br/>
-                        <button type="button" className="btn btn-info" id="generate">Generate Password</button>
-                        Length <input type="number" min="5" max="100" defaultValue="12" id="range"/>
-                    </div>
-                    <div className="form-group">
-                        <label >Optional Note</label>
-                        <textarea  ref="note" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-lg btn-block">Save</button>
-                    </div>
-                </form>
+        <form className="form col-md-12 center-block" onSubmit={this.editor.bind(this)} >
+        <div className="form-group">
+        <label >URL:</label>
+        <input type="url" required ref="site_url" className="form-control" />
+        </div>
+        <div className="form-group">
+        <label >Username</label>
+        <input type="text"  ref="username" className="form-control"/>
+        </div>
+        <div className="form-group">
+        <label >Email</label>
+        <input type="email"  ref="email" className="form-control" />
+        </div>
+        <div className="form-group">
+        <label >Tag</label>
+        <input type="text" ref="tag" id="tag" className="form-control tag" />
+        </div>
+        <div className="form-group">
+        <label >Password</label>
+        <input name="text"  required ref="password" id="inputPassword" className="form-control" />
+        <br/>
+        <button type="button" className="btn btn-info" id="generate">Generate Password</button>
+        Length <input type="number" min="5" max="100" defaultValue="12" id="range"/>
+        </div>
+        <div className="form-group">
+        <label >Optional Note</label>
+        <textarea  ref="note" className="form-control" />
+        </div>
+        <div className="form-group">
+        <button type="submit" className="btn btn-primary btn-lg btn-block">Save</button>
+        </div>
+        </form>
 
-            </div>
+        </div>
         )
-    }
+}
 }
