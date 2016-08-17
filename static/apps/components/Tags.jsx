@@ -30,7 +30,7 @@ export default class Tags extends React.Component {
                         <input type="text" required ref="tag" className="form-control" placeholder="Tag"/>
                     </div>
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-lg btn-block">Save</button>
+                        <button type="submit" className="btn btn-primary">Save</button>
                     </div>
                 </form>
 
