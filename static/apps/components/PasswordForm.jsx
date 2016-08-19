@@ -75,7 +75,18 @@ export default class PasswordForm extends React.Component {
             valueField: 'id',
             labelField: 'name',
             searchField: ['name'],
-            options: bunny
+            options: bunny,
+/*            create: function(input, callback) {
+                axios.post('/api/tag/', {'name': input},{
+                    headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
+                }).then(function(res) {
+                    console.log(res.data);
+                    callback({
+                        'value': res.data['id'],
+                        'text': input
+                    })
+                });
+            }*/
         });
     })();
 }
