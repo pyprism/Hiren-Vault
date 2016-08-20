@@ -76,7 +76,7 @@ export default class PasswordForm extends React.Component {
             labelField: 'name',
             searchField: ['name'],
             options: bunny,
-/*            create: function(input, callback) {
+            create: function(input, callback) {
                 axios.post('/api/tag/', {'name': input},{
                     headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
                 }).then(function(res) {
@@ -86,7 +86,7 @@ export default class PasswordForm extends React.Component {
                         'text': input
                     })
                 });
-            }*/
+            }
         });
     })();
 }
