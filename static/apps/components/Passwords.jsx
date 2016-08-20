@@ -51,6 +51,8 @@ export default class Passwords extends React.Component {
                 a = cell.slice(8);
             return '<a href=' + cell + ' target="_blank" >' + a + '</a>' ;
         }
+        if(this.state.bunny)
+            return <div> There is no data</div>
         if(this.state.loaded) {
             return (
                 <div>
