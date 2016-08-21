@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Vault(models.Model):
-    site_url = models.URLField(max_length=600)
+    site_url = models.TextField()
     username = models.TextField(null=True)
     email = models.TextField(null=True)
     password = models.TextField()
