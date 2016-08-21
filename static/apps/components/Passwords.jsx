@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import {Link} from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {encrypt, decrypt} from '../utils/pgp.js';
 
@@ -21,12 +21,13 @@ export default class Passwords extends React.Component {
             let bugs = await axios.get('/api/vault/', {
                 headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
             });
+            console.log(bugs);
             let hiren = [];
             let length = bugs.data.length;
             for(let i = 0; i < length; i++) {
             	let temp = {};
                 temp['id'] = bugs.data[i]['id'];
-                temp['site_url'] = bugs.data[i]['site_url'];
+                temp['site_url'] = await decrypt(sessionStorage.getItem('key'), bugs.data[i]['site_url']);
                 temp['tag'] = bugs.data[i]['tag'];
                 temp['email'] = await decrypt(sessionStorage.getItem('key'), bugs.data[i]['email']);
                 temp['username'] = await decrypt(sessionStorage.getItem('key'), bugs.data[i]['username']);
@@ -51,7 +52,12 @@ export default class Passwords extends React.Component {
                 a = cell.slice(8);
             return '<a href=' + cell + ' target="_blank" >' + a + '</a>' ;
         }
-        if(this.state.bunny)
+
+        function idLink(cell, row) {
+            return <Link to={ "/app/password/" + cell }  > {cell} </Link>;
+        }
+
+        if(this.state.bunny.length < 0)
             return <div> There is no data</div>
         if(this.state.loaded) {
             return (
@@ -60,7 +66,7 @@ export default class Passwords extends React.Component {
                         title="Vault-> Passwords"
                     />
                     <BootstrapTable data={this.state.bunny} striped={true} hover={true} condensed={true} pagination={true} search={true}>
-                        <TableHeaderColumn dataField="id" isKey={true}>ID</TableHeaderColumn>
+                        <TableHeaderColumn dataField="id" isKey={true} dataFormat={idLink}>ID</TableHeaderColumn>
                         <TableHeaderColumn dataField="site_url" dataFormat={anchor} dataSort={true}>URL</TableHeaderColumn>
                         <TableHeaderColumn dataField="email">Email</TableHeaderColumn>
                         <TableHeaderColumn dataField="username">Username</TableHeaderColumn>
@@ -73,6 +79,6 @@ export default class Passwords extends React.Component {
                 </div>
             )
         }
-        return <div>loading and decrypting all data .... </div>
+        return <div>Downloading and decrypting all data .... </div>
     }
 }

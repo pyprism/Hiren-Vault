@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
 import axios from 'axios';
-import {encrypt, decrypt} from '../utils/pgp.js';
+import {encrypt} from '../utils/pgp.js';
 import {bunny} from '../ajax/password_form.js';
 
 
@@ -10,14 +10,33 @@ export default class PasswordForm extends React.Component {
 
     editor(e){
         e.preventDefault();
-        let data = [];
-        data['site_url'] = ReactDOM.findDOMNode(this.refs.site_url).value;
-        data['username'] = ReactDOM.findDOMNode(this.refs.username).value;
-        data['email'] = ReactDOM.findDOMNode(this.refs.email).value;
-        data['tag'] = ReactDOM.findDOMNode(this.refs.tag).value;
-        data['password'] = ReactDOM.findDOMNode(this.refs.password).value;
-        data['note'] = ReactDOM.findDOMNode(this.refs.note).value;
-        bunny(data);
+        (async function () {
+            let encrypted = {};
+            let data = [];
+            data['site_url'] = ReactDOM.findDOMNode(this.refs.site_url).value;
+            data['username'] = ReactDOM.findDOMNode(this.refs.username).value;
+            data['email'] = ReactDOM.findDOMNode(this.refs.email).value;
+            data['tag'] = ReactDOM.findDOMNode(this.refs.tag).value;
+            data['password'] = ReactDOM.findDOMNode(this.refs.password).value;
+            data['note'] = ReactDOM.findDOMNode(this.refs.note).value;
+            for(var key in data) {
+                if (key === 'tag')
+                    encrypted[key] = data[key];
+                else
+                    encrypted[key] = await encrypt(sessionStorage.getItem('key'), data[key]);
+            }
+            axios({
+                method: 'post',
+                url: '/api/vault/',
+                data: encrypted,
+                headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
+            }).then(function(response) {
+                $.notify("Data Saved", "success");
+            }).catch(function (err) {
+                console.error(err);
+                sweetAlert("Oops!", 'Form data is not valid', "error");
+            });
+        }.bind(this))();
     }
 
     componentDidMount(){
@@ -33,31 +52,6 @@ export default class PasswordForm extends React.Component {
             });
         })();
 
-        /*(function () {  // function for tag autocomplete
-         var input = document.getElementById("tag");
-         var awesomplete = new Awesomplete(input);
-         awesomplete.data = function(item, input) {
-         return { label: item.name, value: item.id };
-         }
-         axios({
-         method: 'get',
-         url: '/api/tag/',
-         headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
-         }).then(function (response) {
-         let bunny = [];
-         response.data.forEach(function (data) {
-         let nisha = {'name': '', 'id': ''};
-         nisha['name'] = data.name;
-         nisha['id'] = '' + data.id;
-         bunny.push(nisha);
-         });
-         awesomplete.list = bunny;
-         }).catch(function (response) {
-         sweetAlert("Oops!", response.data, "error");
-         console.error(response);
-         });
-         })();*/
-
         (async function () {
             let  response = await axios.get('/api/tag/', {
                 headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
@@ -69,25 +63,12 @@ export default class PasswordForm extends React.Component {
                 nisha['id'] = '' + data.id;
                 bunny.push(nisha);
             });
-            console.error(bunny);
             $('#tag').selectize({
                 delimiter: ',',
                 valueField: 'id',
                 labelField: 'name',
                 searchField: ['name'],
-                options: bunny,
-                create: function(input, callback) {
-                    axios.post('/api/tag/', {'name': input},{
-                        headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
-                    }).then(function(res) {
-                        console.log(res.data);
-                        $.notify("Tag Created", "success");
-                        callback({
-                            'value': res.data['id'],
-                            'text': input
-                        })
-                    });
-                }
+                options: bunny
             });
         })();
     }
