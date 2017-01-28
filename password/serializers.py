@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vault, Tag, Recent, Secret
+from .models import Vault, Recent
 
 
 class VaultSerializer(serializers.ModelSerializer):
@@ -10,18 +10,8 @@ class VaultSerializer(serializers.ModelSerializer):
         model = Vault
 
 
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-
-
 class RecentSerializer(serializers.ModelSerializer):
     accessed_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Recent
-
-
-class SecretSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Secret
