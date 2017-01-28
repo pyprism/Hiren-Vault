@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 
 class Vault(models.Model):
@@ -7,13 +8,10 @@ class Vault(models.Model):
     email = models.TextField(null=True)
     password = models.TextField()
     note = models.TextField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    tag = models.ForeignKey('Tag', null=True)
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=500, unique=True)
+    iv = models.CharField(max_length=500)
+    salt = models.CharField(max_length=1000)
+    tag = TaggableManager()
+    history = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -21,9 +19,14 @@ class Tag(models.Model):
 class Recent(models.Model):
     vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
     accessed_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
-class Secret(models.Model):
-    key = models.CharField(max_length=500)
-
-
+class PasswordFieldHistory(models.Model):
+    vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
+    password = models.TextField()
+    iv = models.CharField(max_length=500)
+    salt = models.CharField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
