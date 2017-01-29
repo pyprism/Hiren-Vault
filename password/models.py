@@ -11,6 +11,8 @@ class Vault(models.Model):
     iv = models.CharField(max_length=500)
     salt = models.CharField(max_length=1000)
     tag = TaggableManager()
+    audit = models.BooleanField(default=True)
+    icon = models.TextField(null=True)
     history = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -18,7 +20,6 @@ class Vault(models.Model):
 
 class Recent(models.Model):
     vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
-    accessed_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
