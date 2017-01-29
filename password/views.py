@@ -3,10 +3,12 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .models import Vault, Recent
-from .serializers import VaultSerializer, RecentSerializer
+from .serializers import VaultSerializer, RecentSerializer, TagsListSerializer
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from django.utils import timezone
+from taggit.models import Tag
+from rest_framework.generics import ListAPIView
 from django.core import serializers
 from rest_framework import status
 
@@ -34,16 +36,16 @@ class VaultViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def get_serializer(self, *args, **kwargs):
-        """
-        enable bulk creation
-        """
-        if "data" in kwargs:
-            data = kwargs["data"]
-
-            if isinstance(data, list):
-                kwargs["many"] = True
-        return super(VaultViewSet, self).get_serializer(*args, **kwargs)
+    # def get_serializer(self, *args, **kwargs):
+    #     """
+    #     enable bulk creation
+    #     """
+    #     if "data" in kwargs:
+    #         data = kwargs["data"]
+    #
+    #         if isinstance(data, list):
+    #             kwargs["many"] = True
+    #     return super(VaultViewSet, self).get_serializer(*args, **kwargs)
 
 
 # class TagViewSet(viewsets.ModelViewSet):
@@ -69,6 +71,16 @@ class RecentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Recent.objects.order_by('-id')
     serializer_class = RecentSerializer
+
+
+class TagsListView(ListAPIView):
+    """
+    API endpoint that return list of tags
+    """
+    queryset = Tag.objects.all()
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication)
+    serializer_class = TagsListSerializer
 
 
 # class SecretViewset(viewsets.ModelViewSet):
