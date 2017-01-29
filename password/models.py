@@ -20,6 +20,7 @@ class Vault(models.Model):
 
 class Recent(models.Model):
     vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
+    accessed_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
