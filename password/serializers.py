@@ -14,11 +14,12 @@ class VaultSerializer(TaggitSerializer, serializers.ModelSerializer):
 
 
 class RecentSerializer(serializers.ModelSerializer):
+    vault = VaultSerializer()
     accessed_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Recent
-        fields = '__all__'
+        fields = ('id', 'vault', 'accessed_at')
 
 
 class TagsListSerializer(serializers.Serializer):
