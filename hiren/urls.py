@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^api-token-verify/', verify_jwt_token),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/tags/', views.TagsListView.as_view()),
     url(r'^', TemplateView.as_view(template_name='index.html')),
 ]
