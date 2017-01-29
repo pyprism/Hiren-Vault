@@ -4,37 +4,38 @@ var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
     devtool: 'source-map',
+    context: __dirname,
     entry: [
-         'babel-regenerator-runtime',
-        './static/apps/app.jsx'
+        'webpack-dev-server/client?http://localhost:3000',
+        'webpack/hot/only-dev-server',
+        './bunny/app.jsx'
     ],
-    output : {
-        path: __dirname,
-        filename: "./static/js/bundles/[name]-[hash].js"
+
+    output: {
+        path: path.resolve('./static/js/bundles/'),
+        filename: '[name]-[hash].js',
+        publicPath: 'http://localhost:3000/assets/bundles/' // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
     },
+
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(), // don't reload if there is an error
+        new BundleTracker({filename: './webpack-stats.json'}),
+    ],
+
     module: {
         loaders: [
+            // we pass the output from babel loader to react-hot loader
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader',
                 exclude: /node_modules/,
-                query: {
-                    plugins: [ 'transform-decorators-legacy', 'syntax-async-functions', 'transform-async-to-generator'],
-                    presets: ['react', 'es2015', 'stage-0']
-                }
+                loaders: ['react-hot', 'babel-loader?presets[]=es2015,presets[]=stage-0,presets[]=react,plugins[]=transform-decorators-legacy']
             }
         ]
     },
-    plugins: process.env.NODE_ENV === 'production' ? [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-		compress: { warnings: false },
-      		comments: false,
-      		sourceMap: true,
-      		mangle: true,
-      		minimize: true
-	})
-    ] : [new BundleTracker({filename: './webpack-stats.json'}), new webpack.NoErrorsPlugin()]
-};
+
+    resolve: {
+        modulesDirectories: ['node_modules', 'bower_components'],
+        extensions: ['', '.js', '.jsx']
+    }
+}
