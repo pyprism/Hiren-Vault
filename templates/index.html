@@ -6,17 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Hiren Password </title>
     {% load staticfiles %}
+    {% load compress %}
     {% load render_bundle from webpack_loader %}
+    {% compress css %}
     {% render_bundle 'main' 'css' %}
+    {% endcompress %}
 </head>
 <body>
 <div id='app'></div>
-<script type="text/javascript" src="{% static '/static/bower/jquery/dist/jquery.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/static/bower/bootstrap/dist/js/bootstrap.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/static/bower/sweetalert/dist/sweetalert.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/static/js/notify.js' %}" ></script>
-<script type="text/javascript" async src="{% static '/static/bower/openpgp/dist/openpgp.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/static/bower/selectize/dist/js/standalone/selectize.min.js' %}"></script>
+{% compress js %}
+<script type="text/javascript" src="{% static '/js/jquery-1.11.2.min.js' %}" ></script>
+<script type="text/javascript" src="{% static '/js/bootstrap.min.js' %}" ></script>
+<script type="text/javascript" src="{% static '/js/sweetalert.min.js' %}" ></script>
+<script type="text/javascript" src="{% static '/js/notify.js' %}" ></script>
+<script type="text/javascript" src="{% static '/js/selectize.min.js' %}"></script>
 {% render_bundle 'main' 'js' %}
+{% endcompress %}
 </body>
 </html>
