@@ -1,5 +1,7 @@
 appdirs==1.4.0
 Django==1.10.5
+django-appconf==1.0.2
+django-compressor==2.1.1
 django-taggit==0.21.6
 django-taggit-serializer==0.1.5
 django-webpack-loader==0.4.1
@@ -11,5 +13,7 @@ psycopg2==2.6.2
 PyJWT==1.4.2
 pyparsing==2.1.10
 python-dateutil==2.6.0
+rcssmin==1.0.6
+rjsmin==1.0.12
 six==1.10.0
 uWSGI==2.0.14
