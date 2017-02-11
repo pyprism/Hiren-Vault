@@ -37,12 +37,12 @@ export default class Login extends React.Component {
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/css/sweetalert.css"}
                 ]}
             />
-       <form className="form-signin" onSubmit={this.login.bind(this)} >       
-      <h2 className="form-signin-heading">Please login</h2>
-      <input type="text" className="form-control" ref="username" placeholder="Username" required="" autoFocus />
-      <input type="password" className="form-control" ref="password" placeholder="Password" required/>      
-      <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>   
-    </form>
+            <form className="form-signin" onSubmit={this.login.bind(this)} >
+                <h2 className="form-signin-heading">Please login</h2>
+                <input type="text" className="form-control" ref="username" placeholder="Username" required="" autoFocus />
+                <input type="password" className="form-control" ref="password" placeholder="Password" required/>
+                <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            </form>
         </div>
 
 
