@@ -9,18 +9,19 @@
     {% load compress %}
     {% load render_bundle from webpack_loader %}
     {% compress css %}
-    {% render_bundle 'main' 'css' %}
+        {% render_bundle 'main' 'css' %}
     {% endcompress %}
 </head>
 <body>
 <div id='app'></div>
 {% compress js %}
-<script type="text/javascript" src="{% static '/js/jquery-1.11.2.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/js/bootstrap.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/js/sweetalert.min.js' %}" ></script>
-<script type="text/javascript" src="{% static '/js/notify.js' %}" ></script>
-<script type="text/javascript" src="{% static '/js/selectize.min.js' %}"></script>
-{% render_bundle 'main' 'js' %}
+    <script type="text/javascript" src="{% static '/js/jquery-1.11.2.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static '/js/bootstrap.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static '/js/sweetalert.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static '/js/notify.js' %}" ></script>
+    <script type="text/javascript" src="{% static '/js/selectize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/fontawesome-iconpicker.min.js' %}"></script>
+    {% render_bundle 'main' 'js' %}
 {% endcompress %}
 </body>
 </html>
