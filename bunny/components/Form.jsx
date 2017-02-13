@@ -4,7 +4,11 @@ import Helmet from "react-helmet";
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import Crypt from '../utils/Crypt.jsx';
+import NewPasswordForm from '../models/forms/NewPasswordForm';
+import { observer } from "mobx-react";
 
+
+@observer
 export default class Form extends React.Component {
 
     form(e){
@@ -77,11 +81,12 @@ export default class Form extends React.Component {
                     />
                 </div>
 
-                <form className="form-horizontal" onSubmit={this.form.bind(this)}>
-                    <div className="form-group" id="title">
-                        <label className="control-label col-sm-2" >Title</label>
+                <form className="form-horizontal" >
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('site_url').id} > {NewPasswordForm.$('site_url').label} </label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" ref="title" placeholder="Post Title"/>
+                            <input className="form-control" {...NewPasswordForm.$('site_url').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('site_url').error}</span>
                         </div>
                     </div>
                     <div className="form-group" >
