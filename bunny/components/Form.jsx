@@ -17,7 +17,7 @@ export default class Form extends React.Component {
          */
         e.preventDefault();
         console.log('hit');
-                // key, salt generation
+        // key, salt generation
         let  random = forge.random.getBytesSync(32),
             _salt = forge.random.getBytesSync(128),
             key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, 1500, 32);
@@ -37,10 +37,12 @@ export default class Form extends React.Component {
                 _tag.push(x);
                 x = "";
             }
-}
+        }
     }
 
     componentDidMount() {
+
+        $('.iconPicker').iconpicker();
 
         (function () { // function for selectize
             axios.get('/api/tags/', {
@@ -89,10 +91,63 @@ export default class Form extends React.Component {
                             <span className='error text-danger' >{NewPasswordForm.$('site_url').error}</span>
                         </div>
                     </div>
+
                     <div className="form-group" >
-                        <label className="control-label col-sm-2">Tags</label>
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('username').id} > {NewPasswordForm.$('username').label} </label>
                         <div className="col-sm-10">
-                            <input type="text" ref="tag" id="tags" required className="form-control input-lg" />
+                            <input className="form-control" {...NewPasswordForm.$('username').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('username').error}</span>
+                        </div>
+                    </div>
+
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('password').id} > {NewPasswordForm.$('password').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control" {...NewPasswordForm.$('password').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('password').error}</span>
+                        </div>
+                    </div>
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('email').id} > {NewPasswordForm.$('email').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control" {...NewPasswordForm.$('email').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('email').error}</span>
+                        </div>
+                    </div>
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('note').id} > {NewPasswordForm.$('note').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control" {...NewPasswordForm.$('note').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('note').error}</span>
+                        </div>
+                    </div>
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('iteration').id} > {NewPasswordForm.$('iteration').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control" {...NewPasswordForm.$('iteration').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('iteration').error}</span>
+                        </div>
+                    </div>
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('icon').id} > {NewPasswordForm.$('icon').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control iconPicker" {...NewPasswordForm.$('icon').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('icon').error}</span>
+                        </div>
+                    </div>
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('tag').id} > {NewPasswordForm.$('tag').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control" {...NewPasswordForm.$('tag').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('tag').error}</span>
+                        </div>
+                    </div>
+
+                    <div className="form-group" >
+                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('audit').id} > {NewPasswordForm.$('audit').label} </label>
+                        <div className="col-sm-10">
+                            <input className="form-control" {...NewPasswordForm.$('audit').bind()} />
+                            <span className='error text-danger' >{NewPasswordForm.$('audit').error}</span>
                         </div>
                     </div>
                     <div className="form-group">
