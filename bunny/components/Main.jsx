@@ -63,7 +63,7 @@ export default class Main extends React.Component {
                 ]}
                 />
 
-                <nav className="navbar navbar-default no-margin navbar-fixed-bottom navbar-inverse">
+                <nav className="navbar navbar-default no-margin navbar-fixed-top navbar-inverse">
                     <div className="navbar-header fixed-brand">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
                             <span className="glyphicon glyphicon-th-large" aria-hidden="true" />
