@@ -50,7 +50,7 @@ const fields = {
     },
     icon: {
         label: 'Icon',
-        rules: 'required:string'
+        rules: 'required|string'
     }
 };
 
