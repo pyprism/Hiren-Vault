@@ -11,38 +11,46 @@ import { observer } from "mobx-react";
 @observer
 export default class Form extends React.Component {
 
-    form(e){
-        /***
-         * Handle post save
-         */
-        e.preventDefault();
-        console.log('hit');
-        // key, salt generation
-        let  random = forge.random.getBytesSync(32),
-            _salt = forge.random.getBytesSync(128),
-            key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, 1500, 32);
+    // form(e){
+    //     /***
+    //      * Handle post save
+    //      */
+    //     e.preventDefault();
+    //     console.log('hit');
+    //     // key, salt generation
+    //     let  random = forge.random.getBytesSync(32),
+    //         _salt = forge.random.getBytesSync(128),
+    //         key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, 1500, 32);
 
-        var tagStr = ReactDOM.findDOMNode(this.refs.tag).value;
-        var _tag =[];
-        var len = tagStr.length;
-        var hiren;
-        var x = "";
-        for( hiren=0; hiren<len; hiren++) {
-            if(tagStr[hiren] != ";"){
-                x = x + tagStr[hiren];
-                if( hiren + 1 == len)
-                    _tag.push(x);
-            }
-            else{
-                _tag.push(x);
-                x = "";
-            }
-        }
-    }
+    //     var tagStr = ReactDOM.findDOMNode(this.refs.tag).value;
+    //     var _tag =[];
+    //     var len = tagStr.length;
+    //     var hiren;
+    //     var x = "";
+    //     for( hiren=0; hiren<len; hiren++) {
+    //         if(tagStr[hiren] != ";"){
+    //             x = x + tagStr[hiren];
+    //             if( hiren + 1 == len)
+    //                 _tag.push(x);
+    //         }
+    //         else{
+    //             _tag.push(x);
+    //             x = "";
+    //         }
+    //     }
+    // }
+
+    // shouldComponentUpdate() {
+    //     return false;
+    // }
 
     componentDidMount() {
 
-        $('.iconPicker').iconpicker();
+        let icon = ReactDOM.findDOMNode(this.refs.iconPicker);
+
+        $(icon).iconpicker();
+
+        let tag = ReactDOM.findDOMNode(this.refs.tag);
 
         (function () { // function for selectize
             axios.get('/api/tags/', {
@@ -55,7 +63,7 @@ export default class Form extends React.Component {
                     bunny['text'] = hiren.name;
                     nisha.push(bunny);
                 });
-                $('.tag').selectize({
+                $(tag).selectize({
                     delimiter: ';',
                     persist: false,
                     options: nisha,
@@ -131,14 +139,14 @@ export default class Form extends React.Component {
                     <div className="form-group" >
                         <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('icon').id} > {NewPasswordForm.$('icon').label} </label>
                         <div className="col-sm-10">
-                            <input className="form-control iconPicker" {...NewPasswordForm.$('icon').bind()} />
+                            <input className="form-control " ref="iconPicker" {...NewPasswordForm.$('icon').bind()} />
                             <span className='error text-danger' >{NewPasswordForm.$('icon').error}</span>
                         </div>
                     </div>
                     <div className="form-group" >
                         <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('tag').id} > {NewPasswordForm.$('tag').label} </label>
                         <div className="col-sm-10">
-                            <input className="form-control tag" {...NewPasswordForm.$('tag').bind()} />
+                            <input className="form-control " ref="tag" {...NewPasswordForm.$('tag').bind()} />
                             <span className='error text-danger' >{NewPasswordForm.$('tag').error}</span>
                         </div>
                     </div>
