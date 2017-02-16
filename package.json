@@ -8,13 +8,11 @@
     "if-env": "^1.0.0",
     "mobx": "^3.0.2",
     "mobx-react": "^4.1.0",
-    "mobx-react-form": "^1.18.16",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-helmet": "^4.0.0",
     "react-router": "^3.0.2",
-    "sw-toolbox": "^3.4.0",
-    "validatorjs": "^3.11.0"
+    "sw-toolbox": "^3.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
