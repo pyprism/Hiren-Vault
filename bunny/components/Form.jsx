@@ -2,53 +2,80 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Helmet from "react-helmet";
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 import Crypt from '../utils/Crypt.jsx';
-import NewPasswordForm from '../models/forms/NewPasswordForm';
-import { observer } from "mobx-react";
 
 
-@observer
 export default class Form extends React.Component {
 
-    // form(e){
-    //     /***
-    //      * Handle post save
-    //      */
-    //     e.preventDefault();
-    //     console.log('hit');
-    //     // key, salt generation
-    //     let  random = forge.random.getBytesSync(32),
-    //         _salt = forge.random.getBytesSync(128),
-    //         key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, 1500, 32);
+    form(e){
+        /***
+         * Handle new password save
+         */
+        e.preventDefault();
+        // key, salt generation
+        let  random = forge.random.getBytesSync(32),
+            _salt = forge.random.getBytesSync(128),
+            iteration = ReactDOM.findDOMNode(this.refs.iteration).value,
+            key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'), _salt, iteration, 32);
 
-    //     var tagStr = ReactDOM.findDOMNode(this.refs.tag).value;
-    //     var _tag =[];
-    //     var len = tagStr.length;
-    //     var hiren;
-    //     var x = "";
-    //     for( hiren=0; hiren<len; hiren++) {
-    //         if(tagStr[hiren] != ";"){
-    //             x = x + tagStr[hiren];
-    //             if( hiren + 1 == len)
-    //                 _tag.push(x);
-    //         }
-    //         else{
-    //             _tag.push(x);
-    //             x = "";
-    //         }
-    //     }
-    // }
+        // tag names processing
+        var tagStr = ReactDOM.findDOMNode(this.refs.tag).value;
+        var _tag =[];
+        var len = tagStr.length;
+        var hiren;
+        var x = "";
+        for( hiren=0; hiren<len; hiren++) {
+            if(tagStr[hiren] != ";"){
+                x = x + tagStr[hiren];
+                if( hiren + 1 == len)
+                    _tag.push(x);
+            }
+            else{
+                _tag.push(x);
+                x = "";
+            }
+        }
+        
+        axios({
+            method: 'post',
+            url: '/api/vault/',
+            data: {
+                'tag' : _tag,
+                "site_url": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.site_url).value, key, random),
+                "username": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.username).value, key, random),
+                "email": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.email).value, key, random),
+                "password": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.password).value, key, random),
+                "note": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.note).value, key, random),
+                "iv": forge.util.bytesToHex(random),
+                "salt": ReactDOM.findDOMNode(this.refs.username).value,
+                "iteration": iteration,
+                "audit": ReactDOM.findDOMNode(this.refs.audit).value,
+                "icon": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.iconPicker).value, key, random)
+            },
+            headers: {
+                'Authorization': "JWT " + sessionStorage.getItem('token')
+            }
+        }).then(function (response) {
+            if(response.statusText === "Created") {
+                sweetAlert("Saved", "Saved Successfully", "success");
+                document.getElementById('form').reset();
+            }
+        }).catch(function (err) {
+            if(err.statusText === 'Forbidden') {
+                sweetAlert("Oops!", 'Token Expired, Log Out Please !', "error");
+            }else {
+                console.error(err);
+                sweetAlert('Error', err.statusText, 'error');
+            }
+        })
+    }
 
-    // shouldComponentUpdate() {
-    //     return false;
-    // }
 
     componentDidMount() {
 
         let icon = ReactDOM.findDOMNode(this.refs.iconPicker);
 
-        $(icon).iconpicker();
+        $(icon).iconpicker();  // initializing icon picker
 
         let tag = ReactDOM.findDOMNode(this.refs.tag);
 
@@ -91,63 +118,55 @@ export default class Form extends React.Component {
                     />
                 </div>
 
-                <form className="form-horizontal" >
+                <form className="form-horizontal" id="form" onSubmit={this.form.bind(this)}>
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('site_url').id} > {NewPasswordForm.$('site_url').label} </label>
+                        <label className="control-label col-sm-2" > URL </label>
                         <div className="col-sm-10">
-                            <input className="form-control" {...NewPasswordForm.$('site_url').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('site_url').error}</span>
+                            <input className="form-control" type="url" required autoFocus ref="site_url" placeholder="Site URL" />
                         </div>
                     </div>
 
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('username').id} > {NewPasswordForm.$('username').label} </label>
+                        <label className="control-label col-sm-2" > Username</label>
                         <div className="col-sm-10">
-                            <input className="form-control" {...NewPasswordForm.$('username').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('username').error}</span>
+                            <input className="form-control" type="text" ref="username" placeholder="Optional Username" />
                         </div>
                     </div>
 
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('password').id} > {NewPasswordForm.$('password').label} </label>
+                        <label className="control-label col-sm-2"  > Password </label>
                         <div className="col-sm-10">
-                            <input className="form-control" {...NewPasswordForm.$('password').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('password').error}</span>
+                            <input className="form-control" ref="password" placeholder="Enter Password" />
                         </div>
                     </div>
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('email').id} > {NewPasswordForm.$('email').label} </label>
+                        <label className="control-label col-sm-2" > Email </label>
                         <div className="col-sm-10">
-                            <input className="form-control" {...NewPasswordForm.$('email').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('email').error}</span>
+                            <input className="form-control" type="email" ref="email" placeholder="Optional Email" />
                         </div>
                     </div>
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('note').id} > {NewPasswordForm.$('note').label} </label>
+                        <label className="control-label col-sm-2" > Note </label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" {...NewPasswordForm.$('note').bind()} rows="3" />
-                            <span className='error text-danger' >{NewPasswordForm.$('note').error}</span>
+                            <textarea className="form-control" rows="3" ref="note" placeholder="Optional Note" />
                         </div>
                     </div>
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('iteration').id} > {NewPasswordForm.$('iteration').label} </label>
+                        <label className="control-label col-sm-2"  > Iteration </label>
                         <div className="col-sm-10">
-                            <input className="form-control" {...NewPasswordForm.$('iteration').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('iteration').error}</span>
+                            <input className="form-control" ref='iteration' type="number" defaultValue="2000" />
                         </div>
                     </div>
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('icon').id} > {NewPasswordForm.$('icon').label} </label>
+                        <label className="control-label col-sm-2"  > Icon </label>
                         <div className="col-sm-10">
-                            <input className="form-control " ref="iconPicker" {...NewPasswordForm.$('icon').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('icon').error}</span>
+                            <input className="form-control " ref="iconPicker"  />
                         </div>
                     </div>
                     <div className="form-group" >
-                        <label className="control-label col-sm-2" htmlFor={NewPasswordForm.$('tag').id} > {NewPasswordForm.$('tag').label} </label>
+                        <label className="control-label col-sm-2" > Tags</label>
                         <div className="col-sm-10">
-                            <input className="form-control " ref="tag" {...NewPasswordForm.$('tag').bind()} />
-                            <span className='error text-danger' >{NewPasswordForm.$('tag').error}</span>
+                            <input className="form-control " ref="tag" />
                         </div>
                     </div>
 
@@ -155,19 +174,18 @@ export default class Form extends React.Component {
                         <div className="col-sm-offset-2 col-sm-10">
                             <div className="checkbox">
                                 <label>
-                                    <input type="checkbox" {...NewPasswordForm.$('audit').bind()} /> Enable Audit
-                                    <span className='error text-danger' >{NewPasswordForm.$('audit').error}</span>
+                                    <input type="checkbox" ref="audit" /> Enable Audit
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="col-sm-offset-2 col-sm-10">
-                            <button type="submit" className="btn btn-default" onClick={NewPasswordForm.onSubmit}><i className="fa fa-save" /> Save</button>
+                            <button type="submit" className="btn btn-default" ><i className="fa fa-save" /> Save</button>
                         </div>
                     </div>
                 </form>
             </div>
-    )
+        )
     }
-    }
+}
