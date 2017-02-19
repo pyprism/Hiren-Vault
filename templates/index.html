@@ -14,6 +14,13 @@
 </head>
 <body>
 <div id='app'></div>
+<script src="{% static '/js/raven.min.js' %}"
+    crossorigin="anonymous"></script>
+<script>
+     window.onload = function () {
+         Raven.config('https://744ce28434134a8381ae7e07d584a3fc@sentry.io/140450').install()
+     };
+    </script>
 {% compress js %}
     <script type="text/javascript" src="{% static '/js/jquery-1.11.2.min.js' %}" ></script>
     <script type="text/javascript" src="{% static '/js/bootstrap.min.js' %}" ></script>
