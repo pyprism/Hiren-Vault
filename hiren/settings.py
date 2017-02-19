@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import json
 import datetime
+import raven
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'password',
     'webpack_loader',
     "compressor",
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -144,10 +147,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+# django compress
 COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
 
 COMPRESS_OFFLINE = True
 
+# rest framework
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -168,10 +173,13 @@ REST_FRAMEWORK = {
     ),
 }
 
+# rest framework jwt
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000000),
 }
 
+
+# django webpack loader
 WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
@@ -181,3 +189,12 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+#sentry.io
+RAVEN_CONFIG = {
+    'dsn': JSON_DATA['sentry_dsn'],
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+}
+
