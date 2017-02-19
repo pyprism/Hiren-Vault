@@ -7,6 +7,7 @@ import Secret from './components/Secret.jsx';
 import Main from './components/Main.jsx';
 import All from './components/All.jsx';
 import Form from './components/Form.jsx';
+import {notFound} from './components/404.jsx';
 
 function authRequired(nextState, replace) {
     let token = sessionStorage.getItem('token');
@@ -33,14 +34,15 @@ ReactDOM.render(
     <Router history={browserHistory} >
         <Route path="/" component={Login} />
         <Route path="/secret" component={Secret} />
-       <Route path="/dashboard" onEnter={authRequired} component={Main}>
+        <Route path="/dashboard" onEnter={authRequired} component={Main}>
             <IndexRoute component={All}/>
             <Route path="all"  component={All} />
             <Route path="new" component={Form} />
-       {/**       <Route path="posts/:id/" posts={ diary } component={Post} />
-            <Route path="posts/:id/edit" posts={ diary } component={PostEdit} />
+            <Route path="*" component={notFound} />
+            {/**       <Route path="posts/:id/" posts={ diary } component={Post} />
+             <Route path="posts/:id/edit" posts={ diary } component={PostEdit} />
 
-            <Route path="notes" notes={notes} component={Notes} /> **/}
+             <Route path="notes" notes={notes} component={Notes} /> **/}
         </Route>
 
     </Router>,
