@@ -59,7 +59,8 @@ export default class Main extends React.Component {
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/css/font-awesome.min.css"},
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/css/sweetalert.css"},
                     {"rel": "stylesheet", "type": "text/css", "href": "/static/css/selectize.bootstrap3.css"},
-                    {"rel": "stylesheet", "type": "text/css", "href": "/static/css/fontawesome-iconpicker.min.css"}
+                    {"rel": "stylesheet", "type": "text/css", "href": "/static/css/fontawesome-iconpicker.min.css"},
+                    {"rel": "stylesheet", "type": "text/css", "href": "/static/css/bootstrap-table.min.css"}
                 ]}
                 />
 
