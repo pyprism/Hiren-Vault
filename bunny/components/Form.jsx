@@ -35,7 +35,7 @@ export default class Form extends React.Component {
                 x = "";
             }
         }
-        
+
         axios({
             method: 'post',
             url: '/api/vault/',
@@ -106,6 +106,18 @@ export default class Form extends React.Component {
             })
         })();
 
+        (function(){ //random password generator
+            $( "#generate" ).click(function() {
+                var length = $('#range').val();
+                var charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+                var retVal = "";
+                for (var i = 0, n = charset.length; i < length; ++i) {
+                    retVal += charset.charAt(Math.floor(Math.random() * n));
+                }
+                $('#inputPassword').val(retVal);
+            });
+        })();
+
     }
 
     render() {
@@ -136,8 +148,12 @@ export default class Form extends React.Component {
                     <div className="form-group" >
                         <label className="control-label col-sm-2"  > Password </label>
                         <div className="col-sm-10">
-                            <input className="form-control" ref="password" placeholder="Enter Password" />
+                            <input className="form-control" ref="password" id="inputPassword" placeholder="Enter Password" />
+                            <br/>
+                            <button type="button" className="btn btn-info" id="generate" >Generate Password</button>
+                            Length <input type="number" min="5" max="100" defaultValue="20" id="range"/>
                         </div>
+
                     </div>
                     <div className="form-group" >
                         <label className="control-label col-sm-2" > Email </label>
