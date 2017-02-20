@@ -20,7 +20,8 @@
      window.onload = function () {
          Raven.config('https://744ce28434134a8381ae7e07d584a3fc@sentry.io/140450').install()
      };
-    </script>
+</script>
+<script type="text/javascript" src="{% static '/js/companion.js' %}" data-service-worker="{% static '/js/sw.js' %}"></script>
 {% compress js %}
     <script type="text/javascript" src="{% static '/js/jquery-1.11.2.min.js' %}" ></script>
     <script type="text/javascript" src="{% static '/js/bootstrap.min.js' %}" ></script>
