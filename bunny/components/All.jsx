@@ -9,6 +9,12 @@ import {Link} from 'react-router';
 
 @observer
 export default class All extends React.Component {
+
+	componentDidMount(){
+        this.props.route.passwords.getData();
+        console.log('component');
+    }
+
     render() {
         return (
             <div>
