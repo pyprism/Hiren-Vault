@@ -8,6 +8,7 @@ import Main from './components/Main.jsx';
 import All from './components/All.jsx';
 import Form from './components/Form.jsx';
 import {notFound} from './components/404.jsx';
+import {Vault} from './stores/Vault';
 
 function authRequired(nextState, replace) {
     let token = sessionStorage.getItem('token');
@@ -30,13 +31,15 @@ function authRequired(nextState, replace) {
 
 }
 
+var vault = new Vault();
+
 ReactDOM.render(
     <Router history={browserHistory} >
         <Route path="/" component={Login} />
         <Route path="/secret" component={Secret} />
         <Route path="/dashboard" onEnter={authRequired} component={Main}>
-            <IndexRoute component={All}/>
-            <Route path="all"  component={All} />
+            <IndexRoute passwords={vault} component={All}/>
+            <Route path="all"  passwords={vault} component={All} />
             <Route path="new" component={Form} />
             <Route path="*" component={notFound} />
             {/**       <Route path="posts/:id/" posts={ diary } component={Post} />
