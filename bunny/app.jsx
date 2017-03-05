@@ -40,7 +40,7 @@ ReactDOM.render(
         <Route path="/dashboard" onEnter={authRequired} component={Main}>
             <IndexRoute passwords={vault} component={All}/>
             <Route path="all"  passwords={vault} component={All} />
-            <Route path="new" component={Form} />
+            <Route path="new" passwords={vault} component={Form} />
             <Route path="*" component={notFound} />
             {/**       <Route path="posts/:id/" posts={ diary } component={Post} />
              <Route path="posts/:id/edit" posts={ diary } component={PostEdit} />
