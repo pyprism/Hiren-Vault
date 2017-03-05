@@ -15,7 +15,6 @@ export class Vault {
     	if(this.loaded){
     		// return 
     	} else {
-    		console.log('sdsaasa');
     		this.passwords = [];
     		axios({
     			method: 'get',
@@ -27,6 +26,7 @@ export class Vault {
     			(response.data).map(function (password) {
     				let salt = forge.util.hexToBytes(password['salt']);
     				let iteration = password['iteration'];
+    				console.log(sessionStorage.getItem('key'));
     				let key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'),
     					salt, iteration, 32);
     				let hiren = {};
@@ -41,12 +41,10 @@ export class Vault {
     				hiren['audit'] = password['audit'];
     				hiren['history'] = password['history'];
     				hiren['created_at'] = moment.utc(password['created_at']).local().format("dddd, DD MMMM YYYY hh:mm:ss A");
-    				//hiren['updated_at'] = moment.utc(password['updated_at']).local().format("dddd, DD MMMM YYYY hh:mm:ss A");
     				hiren['updated_at'] = moment.utc(password['updated_at']).fromNow();
     				this.passwords.push(hiren);
     			}.bind(this));
-    			//this.loaded = true;
-    			console.log("hiren");
+    			this.loaded = true;
     			console.log(toJS(this.passwords));
     		})).catch(function(err) {
     			console.error(err);
