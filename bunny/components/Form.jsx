@@ -7,7 +7,7 @@ import Crypt from '../utils/Crypt.jsx';
 
 export default class Form extends React.Component {
 
-    form(e){
+    form = (e) =>{
         /***
          * Handle new password save
          */
@@ -47,7 +47,7 @@ export default class Form extends React.Component {
                 "password": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.password).value, key, random),
                 "note": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.note).value, key, random),
                 "iv": forge.util.bytesToHex(random),
-                "salt": ReactDOM.findDOMNode(this.refs.username).value,
+                "salt": forge.util.bytesToHex(_salt),
                 "iteration": iteration,
                 "audit": ReactDOM.findDOMNode(this.refs.audit).value,
                 "icon": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.iconPicker).value, key, random)
@@ -58,9 +58,10 @@ export default class Form extends React.Component {
         }).then(function (response) {
             if(response.statusText === "Created") {
                 sweetAlert("Saved", "Saved Successfully", "success");
+                this.props.route.passwords.loaded = false;
                 document.getElementById('form').reset();
             }
-        }).catch(function (err) {
+        }.bind(this)).catch(function (err) {
             if(err.statusText === 'Forbidden') {
                 sweetAlert("Oops!", 'Token Expired, Log Out Please !', "error");
             }else {
