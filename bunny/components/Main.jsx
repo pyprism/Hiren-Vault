@@ -70,7 +70,7 @@ export default class Main extends React.Component {
                             <span className="glyphicon glyphicon-th-large" aria-hidden="true" />
                         </button>
                         <a className="navbar-brand" href="#">
-                            <i className="fa fa-heartbeat fa-4" /> Hiren Bookmark</a>
+                            <i className="fa fa-heartbeat fa-4" /> Hiren Vault</a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
