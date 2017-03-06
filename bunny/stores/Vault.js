@@ -13,7 +13,7 @@ export class Vault {
 
     @action getData() {
     	if(this.loaded){
-    		// return 
+    		// return
     	} else {
     		this.passwords = [];
     		axios({
@@ -22,11 +22,9 @@ export class Vault {
     			headers: {'Authorization': "JWT " + sessionStorage.getItem('token')}
     		}).then(action('response action', (response) => {
     			this.loadingText = 'Decrypting data...';
-    			console.log('ajax');
     			(response.data).map(function (password) {
     				let salt = forge.util.hexToBytes(password['salt']);
     				let iteration = password['iteration'];
-    				console.log(sessionStorage.getItem('key'));
     				let key = forge.pkcs5.pbkdf2(sessionStorage.getItem('key'),
     					salt, iteration, 32);
     				let hiren = {};
@@ -45,7 +43,6 @@ export class Vault {
     				this.passwords.push(hiren);
     			}.bind(this));
     			this.loaded = true;
-    			console.log(toJS(this.passwords));
     		})).catch(function(err) {
     			console.error(err);
     			sweetAlert("Oops!", err.statusText, "error");
