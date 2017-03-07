@@ -7,6 +7,7 @@ import Secret from './components/Secret.jsx';
 import Main from './components/Main.jsx';
 import All from './components/All.jsx';
 import Form from './components/Form.jsx';
+import PasswordShow from './components/PasswordShow.jsx';
 import {notFound} from './components/404.jsx';
 import {Vault} from './stores/Vault';
 
@@ -41,6 +42,7 @@ ReactDOM.render(
             <IndexRoute passwords={vault} component={All}/>
             <Route path="all"  passwords={vault} component={All} />
             <Route path="new" passwords={vault} component={Form} />
+            <Route path=":id" passwords={vault} component={PasswordShow} />
             <Route path="*" component={notFound} />
             {/**       <Route path="posts/:id/" posts={ diary } component={Post} />
              <Route path="posts/:id/edit" posts={ diary } component={PostEdit} />
