@@ -94,9 +94,6 @@ export default class Main extends React.Component {
                                 <Link to="/dashboard/new/"><span className="fa-stack fa-lg pull-left"><i className="fa fa-key fa-stack-1x "/></span> Create New</Link>
                             </li>
                             <li>
-                                <Link to="/dashboard/new/"><span className="fa-stack fa-lg pull-left"><i className="fa fa-plus-circle fa-stack-1x "/></span> Create New</Link>
-                            </li>
-                            <li>
                                 <Link  to="#" activeStyle={{ color: '#315561'}} onClick= { this.logout }> <span className="fa-stack fa-lg pull-left"><i className="fa fa-sign-out fa-stack-1x "/></span> Log Out</Link>
                             </li>
                         </ul>
