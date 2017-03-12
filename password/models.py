@@ -24,13 +24,3 @@ class Recent(models.Model):
     accessed_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class PasswordFieldHistory(models.Model):
-    vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
-    password = models.TextField()
-    iv = models.CharField(max_length=500)
-    salt = models.CharField(max_length=1000)
-    iteration = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
