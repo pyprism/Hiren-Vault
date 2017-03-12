@@ -1,0 +1,8 @@
+[Unit]
+Description=uWSGI instance to serve Hiren-Vault
+
+[Service]
+ExecStart=/bin/bash -c 'su prism; cd /home/prism/prod/Hiren-Vault; source .env/bin/activate; uwsgi --ini hiren.ini'
+
+[Install]
+WantedBy=multi-user.target
