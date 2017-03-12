@@ -40,6 +40,7 @@ export class Vault {
                     hiren['tag'] = password['tag'];
                     hiren['audit'] = password['audit'];
                     hiren['history'] = password['history'];
+                    hiren['iteration'] = password['iteration'];
                     hiren['created_at'] = moment.utc(password['created_at']).local().format("dddd, DD MMMM YYYY hh:mm:ss A");
                     hiren['updated_at'] = moment.utc(password['updated_at']).fromNow();
                     this.passwords.push(hiren);
