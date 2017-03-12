@@ -49,7 +49,7 @@ export default class Form extends React.Component {
                 "iv": forge.util.bytesToHex(random),
                 "salt": forge.util.bytesToHex(_salt),
                 "iteration": iteration,
-                "audit": ReactDOM.findDOMNode(this.refs.audit).value,
+                "audit": ReactDOM.findDOMNode(this.refs.audit).checked,
                 "icon": Crypt.encrypt(ReactDOM.findDOMNode(this.refs.iconPicker).value, key, random)
             },
             headers: {
