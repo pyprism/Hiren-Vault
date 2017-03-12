@@ -51,7 +51,7 @@ export default class PasswordShow extends React.Component {
         }
     }
 
-    deletePost = () => {  // delete button
+    deletePost = () => {  // handle delete button
         var id = this.props.route.passwords.vaultId;
 
         let message = "Delete This Item",
@@ -77,7 +77,7 @@ export default class PasswordShow extends React.Component {
             });
     }
 
-    saveChanged() {
+    saveChanged() { // save new data
         let id = this.props.route.passwords.vaultId;
 
         let message = "Save updated data ?",
@@ -122,7 +122,7 @@ export default class PasswordShow extends React.Component {
             });
     }
 
-    tags() { // generate tags and button
+    tags() { // generate tags, buttons and date info
         var bunny = [];
         if(this.props.route.passwords.password['tag']) {
             (this.props.route.passwords.password['tag']).map(function (data, index) {
