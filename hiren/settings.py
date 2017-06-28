@@ -42,7 +42,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -52,12 +51,19 @@ INSTALLED_APPS = [
     'taggit',
     'taggit_serializer',
     'password',
-    'webpack_loader',
-    "compressor",
-    'raven.contrib.django.raven_compat',
+    'rest_framework.authtoken',
+    'silk',
+    'corsheaders',
+]
+
+if DEBUG is False:
+    INSTALLED_APPS += [
+        'raven.contrib.django.raven_compat',
+        'cacheops'
 ]
 
 MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,25 +72,26 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'hiren.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': ['templates'],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
 
 WSGI_APPLICATION = 'hiren.wsgi.application'
 
@@ -131,6 +138,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+# create-react-app directory
+
+REACT_APP_DIR = os.path.join(BASE_DIR, 'bunny')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -140,17 +150,12 @@ STATIC_URL = '/static/'
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    'compressor.finders.CompressorFinder',
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(REACT_APP_DIR, 'build', 'static'),
 )
 
-# django compress
-COMPRESS_ROOT = os.path.join(BASE_DIR, "static")
-
-COMPRESS_OFFLINE = True
 
 # rest framework
 REST_FRAMEWORK = {
@@ -170,6 +175,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
@@ -179,18 +185,7 @@ JWT_AUTH = {
 }
 
 
-# django webpack loader
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'js/bundles/',  # must end with slash
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-        'POLL_INTERVAL': 0.1,
-        'IGNORE': ['.+\.hot-update.js', '.+\.map']
-    }
-}
-
-#sentry.io
+# sentry.io
 RAVEN_CONFIG = {
     'dsn': JSON_DATA['sentry_dsn'],
     # If you are using git, you can also automatically configure the
@@ -252,6 +247,10 @@ LOGGING = {
         }
     },
     'loggers': {
+        'django.db.backends': {  # enable sql log during development
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
         'django.request': {
             'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
@@ -270,3 +269,21 @@ LOGGING = {
     }
 }
 
+# CORS
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# cache
+CACHEOPS_REDIS = {
+    'host': 'localhost',  # redis-server is on same machine
+    'port': 6379,         # default redis port
+    'db': 6,             # SELECT non-default redis database
+}
+
+CACHEOPS = {
+    # Automatically cache any User.objects.get() calls for 15 minutes
+    # This includes request.user or post.author access,
+    # where Post.author is a foreign key to auth.User
+    'auth.user': {'ops': 'all', 'timeout': 60*60*24*30},
+    '*.*': {'ops': 'all', 'timeout': 60*60*24*5},  # enable cache for all model for 5 days
+}
