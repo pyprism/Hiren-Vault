@@ -3,6 +3,7 @@ from taggit.managers import TaggableManager
 
 
 class Vault(models.Model):
+    title = models.TextField()
     site_url = models.TextField()
     username = models.TextField(null=True)
     email = models.TextField(null=True)
