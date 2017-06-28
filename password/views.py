@@ -14,8 +14,35 @@ from rest_framework import status
 from django.views.generic import View
 from django.http import HttpResponse
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import auth
+from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
 import os
 import logging
+
+
+@csrf_exempt
+def login(request):
+    """
+    token authentication for desktop apps
+    :param request:
+    :return:
+    """
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = auth.authenticate(username=username, password=password)
+        if user:
+            token = Token.objects.get_or_create(user=user)
+            return JsonResponse({'token': str(token[0])})
+        else:
+            return HttpResponse(
+                """
+                Username or password is not valid!
+                """,
+                status=403,
+            )
 
 
 class BunnyAppView(View):
