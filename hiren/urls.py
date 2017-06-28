@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf import settings
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 from rest_framework import routers
 from password import views
@@ -30,4 +31,9 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/tags/', views.TagsListView.as_view()),
     url(r'^', views.BunnyAppView.as_view()),
+]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^silk/', include('silk.urls', namespace='silk'))
 ]
