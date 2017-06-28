@@ -24,6 +24,7 @@ router.register('recent', views.RecentViewSet)
 
 urlpatterns = [
     url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^login/', views.login),
     url(r'^api-token-verify/', verify_jwt_token),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
