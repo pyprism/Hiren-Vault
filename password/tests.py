@@ -3,7 +3,6 @@ from .models import Recent, Vault
 from django.utils import timezone
 from rest_framework.test import APIRequestFactory, APIClient
 from django.contrib.auth.models import User
-# from mock import patch
 from contextlib import contextmanager
 import datetime
 from django.utils import timezone
@@ -16,10 +15,11 @@ class ModelTest(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
+        self.user = User.objects.create_user('hiren', 'a@b.com', 'bunny')
         vault = Vault.objects.create(site_url='http://xyz.com', username='prism',
                                      email='a@x.com', password='1234', note='note',
-                                     title='title', iv='sdfc', salt='sasasa', iteration=2)
-        Recent.objects.create(vault=vault)
+                                     title='title', iv='sdfc', salt='sasasa', iteration=2, user=self.user)
+        Recent.objects.create(vault=vault, user=self.user)
 
     def test_vault_model(self):
         vault_items = Vault.objects.all()
@@ -29,7 +29,6 @@ class ModelTest(TransactionTestCase):
         self.assertEqual(vault_items[0].email, 'a@x.com')
         self.assertEqual(vault_items[0].password, '1234')
         self.assertEqual(vault_items[0].note, 'note')
-        # self.assertEqual(vault_items[0].tag.id, 1)
 
     def test_recent_model(self):
         recent_items = Recent.objects.all()
