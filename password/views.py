@@ -73,6 +73,11 @@ class VaultViewSet(viewsets.ModelViewSet):
     queryset = Vault.objects.all()
     serializer_class = VaultSerializer
 
+    def list(self, request):
+        queryset = Vault.objects.filter(user=request.user)
+        serializer = VaultSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     # def retrieve(self, request, pk=None, *args, **kwargs):
     #     """
     #     Save recently accessed item to recent table
