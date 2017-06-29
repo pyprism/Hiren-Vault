@@ -1,8 +1,10 @@
 from django.db import models
 from taggit.managers import TaggableManager
+from django.contrib.auth.models import User
 
 
 class Vault(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField()
     site_url = models.TextField()
     username = models.TextField(null=True)
@@ -21,6 +23,7 @@ class Vault(models.Model):
 
 
 class Recent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
     accessed_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
