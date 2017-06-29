@@ -247,10 +247,10 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django.db.backends': {  # enable sql log during development
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        },
+        # 'django.db.backends': {  # enable sql log during development
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # },
         'django.request': {
             'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
