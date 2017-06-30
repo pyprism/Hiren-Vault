@@ -10,6 +10,9 @@ services:
 addons:
   postgresql: "9.4"
 
+env:
+  - DEBUG=True
+
 install:
   - pip install -r requirements.txt --quiet
   - pip install codecov
