@@ -15,11 +15,10 @@ class ModelTest(TransactionTestCase):
     reset_sequences = True
 
     def setUp(self):
-        self.user = User.objects.create_user('hiren', 'a@b.com', 'bunny')
         vault = Vault.objects.create(site_url='http://xyz.com', username='prism',
                                      email='a@x.com', password='1234', note='note',
-                                     title='title', iv='sdfc', salt='sasasa', iteration=2, user=self.user)
-        Recent.objects.create(vault=vault, user=self.user)
+                                     title='title', iv='sdfc', salt='sasasa', iteration=2)
+        Recent.objects.create(vault=vault)
 
     def test_vault_model(self):
         vault_items = Vault.objects.all()
