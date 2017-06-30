@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'taggit_serializer',
     'password',
     'rest_framework.authtoken',
-    'silk',
     'corsheaders',
 ]
 
@@ -60,7 +59,12 @@ if DEBUG is False:
     INSTALLED_APPS += [
         'raven.contrib.django.raven_compat',
         'cacheops'
-]
+    ]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        'silk'
+    ]
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
@@ -72,8 +76,12 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'silk.middleware.SilkyMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE_CLASSES += [
+        'silk.middleware.SilkyMiddleware',
+    ]
 
 ROOT_URLCONF = 'hiren.urls'
 
@@ -138,7 +146,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# create-react-app directory
+# add create-react-app directory
 
 REACT_APP_DIR = os.path.join(BASE_DIR, 'bunny')
 
