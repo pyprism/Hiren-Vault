@@ -73,27 +73,22 @@ class VaultViewSet(viewsets.ModelViewSet):
     queryset = Vault.objects.all()
     serializer_class = VaultSerializer
 
-    def list(self, request):
-        queryset = Vault.objects.filter(user=request.user)
-        serializer = VaultSerializer(queryset, many=True)
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        """
+        Save recently accessed item to recent table
+        """
+        instance = self.get_object()
+        if instance:
+            obj, created = Recent.objects.get_or_create(vault=instance)
+            if not created:
+                count = Recent.objects.count()
+                if count == 20:  # table can contain 20 max items, otherwise delete the 1st item brutally :D
+                    obj_del = Recent.objects.first()
+                    obj_del.delete()
+                obj.accessed_at = timezone.now()
+                obj.save()
+        serializer = self.get_serializer(instance)
         return Response(serializer.data)
-
-    # def retrieve(self, request, pk=None, *args, **kwargs):
-    #     """
-    #     Save recently accessed item to recent table
-    #     """
-    #     instance = self.get_object()
-    #     if instance:
-    #         obj, created = Recent.objects.get_or_create(vault=instance)
-    #         if not created:
-    #             count = Recent.objects.count()
-    #             if count == 20:  # table can contain 20 max items, otherwise delete the 1st item brutally :D
-    #                 obj_del = Recent.objects.first()
-    #                 obj_del.delete()
-    #             obj.accessed_at = timezone.now()
-    #             obj.save()
-    #     serializer = self.get_serializer(instance)
-    #     return Response(serializer.data)
 
     # def get_serializer(self, *args, **kwargs):
     #     """
@@ -128,7 +123,7 @@ class VaultViewSet(viewsets.ModelViewSet):
 class RecentViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication)
     permission_classes = (IsAuthenticated,)
-    queryset = Recent.objects.order_by('-id')
+    queryset = Recent.objects.order_by('-accessed_at')
     serializer_class = RecentSerializer
 
 
