@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import swal from "sweetalert2";
 import "static/css/bootstrap.min.css";
 import "static/css/materialize.css";
 import "static/css/animate.min.css";
@@ -6,6 +7,14 @@ import "static/css/waves.min.css";
 import "static/css/style.min.css";
 
 export default class Login extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            username: "",
+            password: ""
+        };
+    }
     login(e) {
         e.preventDefault();
         axios({
@@ -22,11 +31,23 @@ export default class Login extends React.Component {
             }
         })
             .catch(function (response) {
-                sweetAlert("Oops!", response.data.non_field_errors[0], "error");
+                swal("Oops!", response.data.non_field_errors[0], "error");
             });
+
+        this.resetForm();
+    }
+
+    resetForm(){
+        this.setState = ({
+            username: "",
+            password: ""
+        });
     }
 
     render() {
+
+        const {username, password} = this.state;
+
         return (
             <div className="login-page">
                 <div className="login-box">
@@ -36,14 +57,14 @@ export default class Login extends React.Component {
                     </div>
                     <div className="card">
                         <div className="body">
-                            <form id="sign_in" method="POST">
+                            <form id="sign_in" onSubmit={this.login.bind(this)}>
                                 <div className="msg">Sign in to start your session</div>
                                 <div className="input-group">
                         <span className="input-group-addon">
                             <i className="material-icons">person</i>
                         </span>
                                     <div className="form-line">
-                                        <input type="text" className="form-control" name="username" placeholder="Username" required/>
+                                        <input type="text" className="form-control" name="username" autofocus value={username} placeholder="Username" required/>
                                     </div>
                                 </div>
                                 <div className="input-group">
@@ -51,7 +72,7 @@ export default class Login extends React.Component {
                             <i className="material-icons">lock</i>
                         </span>
                                     <div className="form-line">
-                                        <input type="password" className="form-control" name="password" placeholder="Password" required/>
+                                        <input type="password" className="form-control" name="password" value={password} placeholder="Password" required/>
                                     </div>
                                 </div>
                                 <div className="row">
