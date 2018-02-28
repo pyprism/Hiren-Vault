@@ -17,7 +17,7 @@ funcy==1.10
 idna==2.6
 Jinja2==2.10
 MarkupSafe==1.0
-packaging==16.8
+packaging==17.0
 psycopg2==2.7.4
 pycodestyle==2.3.1
 Pygments==2.2.0
