@@ -25,7 +25,7 @@ pyparsing==2.2.2
 PyJWT==1.6.4
 python-dateutil==2.7.2
 pytz==2018.5
-raven==6.6.0
+raven==6.9.0
 requests==2.19.1
 redis==2.10.6
 six==1.11.0
