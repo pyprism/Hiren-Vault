@@ -5,7 +5,7 @@ chardet==3.0.4
 contextlib2==0.5.5
 Django==2.1.2
 django-appconf==1.0.2
-django-cacheops==4.0
+django-cacheops==4.1
 django-cors-headers==2.4.0
 django-silk==3.0.1
 django-taggit==0.22.2
