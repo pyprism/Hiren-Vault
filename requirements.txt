@@ -22,7 +22,7 @@ psycopg2==2.7.4
 pycodestyle==2.4.0
 Pygments==2.2.0
 PyJWT==1.6.1
-pyparsing==2.2.0
+pyparsing==2.2.2
 python-dateutil==2.7.2
 pytz==2018.5
 raven==6.6.0
