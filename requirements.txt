@@ -14,7 +14,7 @@ djangorestframework==3.8.2
 djangorestframework-jwt==1.11.0
 freezegun==0.3.10
 funcy==1.11
-idna==2.6
+idna==2.7
 Jinja2==2.10
 MarkupSafe==1.0
 packaging==18.0
