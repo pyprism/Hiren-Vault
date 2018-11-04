@@ -24,7 +24,7 @@ Pygments==2.2.0
 pyparsing==2.3.0
 PyJWT==1.6.4
 python-dateutil==2.7.3
-pytz==2018.5
+pytz==2018.7
 raven==6.9.0
 requests==2.19.1
 redis==2.10.6
