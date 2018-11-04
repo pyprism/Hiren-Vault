@@ -48,17 +48,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'taggit',
-    'taggit_serializer',
     'password',
     'rest_framework.authtoken',
     'corsheaders',
+    'base'
 ]
 
 if DEBUG is False:
     INSTALLED_APPS += [
         'raven.contrib.django.raven_compat',
-        'cacheops'
     ]
 
 if DEBUG:
@@ -88,7 +86,7 @@ ROOT_URLCONF = 'hiren.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'bunny/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,7 +127,7 @@ else:
             'PORT': '',
             'CONN_MAX_AGE': 600,
             'atomic': True
-            }
+        }
     }
 
 
@@ -140,66 +138,48 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Dhaka'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
-
-# add create-react-app directory
-
-REACT_APP_DIR = os.path.join(BASE_DIR, 'bunny')
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
+USE_TZ = False
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'bunny/build/static'),
+]
 
-STATICFILES_FINDERS = (
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+# custom user model
+AUTH_USER_MODEL = 'base.Account'
+
+# DRF
+DEFAULT_RENDERER_CLASSES = (
+    'rest_framework.renderers.JSONRenderer',
 )
 
-STATICFILES_DIRS = (
-    os.path.join(REACT_APP_DIR, 'build', 'static'),
-)
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 
-
-# rest framework
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer'
-    ),
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-}
-
-# rest framework jwt
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000000),
+    ],
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES,
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 20
 }
 
 
 # sentry.io
-RAVEN_CONFIG = {
-    'dsn': JSON_DATA['sentry_dsn'],
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
-}
+if not DEBUG:
+    RAVEN_CONFIG = {
+        'dsn': JSON_DATA['sentry_dsn'],
+        # If you are using git, you can also automatically configure the
+        # release based on the git info.
+        'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    }
 
 # logger
 LOGGING = {
@@ -280,18 +260,8 @@ LOGGING = {
 # CORS
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-# cache
-CACHEOPS_REDIS = {
-    'host': 'localhost',  # redis-server is on same machine
-    'port': 6379,         # default redis port
-    'db': 6,             # SELECT non-default redis database
-}
-
-CACHEOPS = {
-    # Automatically cache any User.objects.get() calls for 15 minutes
-    # This includes request.user or post.author access,
-    # where Post.author is a foreign key to auth.User
-    'auth.user': {'ops': 'all', 'timeout': 60*60*24*30},
-    '*.*': {'ops': 'all', 'timeout': 60*60*24*5},  # enable cache for all model for 5 days
-}
+CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST'
+)
