@@ -13,27 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.urls import re_path, path, include
 from django.conf import settings
-from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 from rest_framework import routers
 from password import views
+from base import urls as base
+from django.views.generic import TemplateView
 
 router = routers.DefaultRouter()
 router.register('vault', views.VaultViewSet)
 router.register('recent', views.RecentViewSet)
 
 urlpatterns = [
-    url(r'^api-token-auth/', obtain_jwt_token),
-    url(r'^login/', views.login),
-    url(r'^api-token-verify/', verify_jwt_token),
-    url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/tags/', views.TagsListView.as_view()),
-    url(r'^', views.BunnyAppView.as_view()),
+    path('api/base/', include(base)),
+    path(r'^api/', include(router.urls)),
 ]
+
+if not settings.DEBUG:
+    urlpatterns += [
+        re_path('.*', TemplateView.as_view(template_name='index.html')),
+    ]
 
 if settings.DEBUG:
     urlpatterns += [
-        url(r'^silk/', include('silk.urls', namespace='silk'))
+        re_path(r'^silk/', include('silk.urls', namespace='silk')),
+        re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
