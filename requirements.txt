@@ -16,7 +16,7 @@ freezegun==0.3.11
 funcy==1.11
 idna==2.7
 Jinja2==2.10
-MarkupSafe==1.0
+MarkupSafe==1.1.0
 packaging==18.0
 psycopg2==2.7.5
 pycodestyle==2.4.0
